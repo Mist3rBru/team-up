@@ -1,0 +1,21 @@
+{
+  "root": true,
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "extends": ["plugin:mist3rbru/node"],
+  "rules": {
+    "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+    "no-duplicate-imports": "off",
+    "import/no-duplicates": "off"
+  },
+  "overrides": [
+    {
+      "files": ["src/domain/mappers/*.ts"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off"
+      }
+    }
+  ]
+}

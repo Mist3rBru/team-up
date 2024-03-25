@@ -1,0 +1,8 @@
+node_modules/
+dist/
+coverage/
+public/uploads/*
+public/zips/*
+!public/**/.gitkeep
+
+prisma/dev.db*
