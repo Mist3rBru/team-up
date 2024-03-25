@@ -1,6 +1,6 @@
+import { AppModule } from '#main/modules/app.module.js'
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
-import { AppModule } from './modules/app.module.js'
 
 const port = 3030
 
