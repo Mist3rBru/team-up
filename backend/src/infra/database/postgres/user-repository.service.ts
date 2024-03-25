@@ -3,13 +3,15 @@ import { UserMapper } from '#domain/mappers/user-mapper.js'
 import type {
   ICreateUserRepository,
   IFindUserByEmailRepository,
+  IFindUserByIdRepository,
 } from '#services/protocols/database/user-repository.js'
 import { PrismaService } from '#infra/database/postgres/prisma.service.js'
 import { Injectable } from '@nestjs/common'
 
 interface IUserRepository
   extends ICreateUserRepository,
-    IFindUserByEmailRepository {}
+    IFindUserByEmailRepository,
+    IFindUserByIdRepository {}
 
 @Injectable()
 export class UserRepository implements IUserRepository {
