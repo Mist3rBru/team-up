@@ -27,11 +27,20 @@ export class UserMapper {
     }
   }
 
-  public toSample(): User.Sample {
+  public toSample() {
     return {
       id: this.props.id,
       img: this.props.img,
       name: this.props.name,
+    }
+  }
+
+  public toTeam() {
+    return {
+      id: this.props.id,
+      img: this.props.img,
+      name: this.props.name,
+      isModerator: this.props.isModerator,
     }
   }
 }

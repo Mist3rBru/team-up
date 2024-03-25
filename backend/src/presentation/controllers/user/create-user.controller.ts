@@ -1,4 +1,3 @@
-import type { User } from '#domain/entities/user-entity.js'
 import { UserMapper } from '#domain/mappers/user-mapper.js'
 import { ICreateUser } from '#domain/usecases/user/create-user.js'
 import { Body, Controller, Post } from '@nestjs/common'
@@ -23,7 +22,7 @@ export class CreateUserController {
 
   @Post('/user')
   async handle(@Body() body: CreateUserBodyDto): Promise<{
-    user: User.Sample
+    user: ReturnType<UserMapper['toSample']>
     token: string
   }> {
     const { user, token } = await this.createUserService.create(body)

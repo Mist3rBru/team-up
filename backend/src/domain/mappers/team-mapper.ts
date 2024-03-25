@@ -10,6 +10,7 @@ export class TeamMapper {
       id: this.props.id,
       gameId: this.props.gameId,
       name: this.props.name,
+      isOpen: this.props.isOpen,
       createdAt: this.props.createdAt,
       updatedAt: this.props.updatedAt,
     }
@@ -19,11 +20,13 @@ export class TeamMapper {
     return {
       id: this.props.id,
       name: this.props.name,
-      members: this.props.members?.map(member =>
-        new UserMapper(member).toSample()
-      ),
+      isOpen: this.props.isOpen,
       createdAt: this.props.createdAt,
       updatedAt: this.props.updatedAt,
+
+      members: this.props.members?.map(member =>
+        new UserMapper(member).toTeam()
+      ),
     }
   }
 }

@@ -22,6 +22,7 @@ model User {
   sentMessages     UserToUserMessage[] @relation(name: "sender")
   receivedMessages UserToUserMessage[] @relation(name: "receiver")
   teamMessages     UserToTeamMessage[]
+  teamSolicitation TeamSolicitation[]
 }
 
 model UserPlatform {
@@ -45,8 +46,9 @@ model UserGame {
 }
 
 model UserTeam {
-  userId String
-  teamId String
+  userId      String
+  teamId      String
+  isModerator Boolean
 
   user User @relation(fields: [userId], references: [id])
   team Team @relation(fields: [teamId], references: [id])
@@ -91,12 +93,24 @@ model Team {
   id        String   @id
   gameId    String
   name      String
+  isOpen    Boolean
   createdAt DateTime
   updatedAt DateTime @updatedAt
 
-  game         Game                @relation(fields: [gameId], references: [id])
-  members      UserTeam[]
-  teamMessages UserToTeamMessage[]
+  game          Game                @relation(fields: [gameId], references: [id])
+  members       UserTeam[]
+  teamMessages  UserToTeamMessage[]
+  solicitations TeamSolicitation[]
+}
+
+model TeamSolicitation {
+  userId String
+  teamId String
+
+  user User @relation(fields: [userId], references: [id])
+  team Team @relation(fields: [teamId], references: [id])
+
+  @@id([userId, teamId])
 }
 
 model Message {

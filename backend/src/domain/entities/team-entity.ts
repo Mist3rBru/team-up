@@ -27,6 +27,10 @@ export class Team {
     return this.props.name
   }
 
+  get isOpen(): boolean {
+    return this.props.isOpen
+  }
+
   get createdAt(): Date {
     return this.props.createdAt
   }
@@ -45,6 +49,7 @@ export namespace Team {
     id: UUID
     gameId: string
     name: string
+    isOpen: boolean
     createdAt: Date
     updatedAt: Date
 
@@ -55,6 +60,7 @@ export namespace Team {
     id?: string
     gameId: string
     name: string
+    isOpen: boolean
     createdAt?: Date
     updatedAt?: Date
 

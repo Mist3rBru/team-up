@@ -37,6 +37,10 @@ export class User {
     this.props.password = password
   }
 
+  get isModerator(): boolean | undefined {
+    return this.props.isModerator
+  }
+
   get createdAt(): Date {
     return this.props.createdAt
   }
@@ -53,6 +57,7 @@ export namespace User {
     name: string
     email: string
     password: string
+    isModerator?: boolean
     createdAt: Date
     updatedAt: Date
   }
@@ -63,13 +68,8 @@ export namespace User {
     name: string
     email: string
     password: string
+    isModerator?: boolean
     createdAt?: Date
     updatedAt?: Date
-  }
-
-  export interface Sample {
-    id: string
-    img: string
-    name: string
   }
 }

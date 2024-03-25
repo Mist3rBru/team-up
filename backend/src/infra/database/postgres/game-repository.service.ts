@@ -29,9 +29,10 @@ export class GameRepository implements IGameRepository {
         gameId,
       },
       include: {
-        userTeam: {
+        members: {
           select: {
             user: true,
+            isModerator: true,
           },
         },
       },
@@ -41,7 +42,10 @@ export class GameRepository implements IGameRepository {
       d =>
         new Team({
           ...d,
-          members: d.userTeam.flatMap(({ user }) => user),
+          members: d.members.flatMap(({ user, isModerator }) => ({
+            ...user,
+            isModerator,
+          })),
         })
     )
   }

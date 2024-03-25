@@ -33,6 +33,7 @@ CREATE TABLE "UserGame" (
 CREATE TABLE "UserTeam" (
     "userId" TEXT NOT NULL,
     "teamId" TEXT NOT NULL,
+    "isModerator" BOOLEAN NOT NULL,
 
     PRIMARY KEY ("userId", "teamId"),
     CONSTRAINT "UserTeam_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -72,9 +73,20 @@ CREATE TABLE "Team" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "gameId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "isOpen" BOOLEAN NOT NULL,
     "createdAt" DATETIME NOT NULL,
     "updatedAt" DATETIME NOT NULL,
     CONSTRAINT "Team_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Game" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "TeamSolicitation" (
+    "userId" TEXT NOT NULL,
+    "teamId" TEXT NOT NULL,
+
+    PRIMARY KEY ("userId", "teamId"),
+    CONSTRAINT "TeamSolicitation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "TeamSolicitation_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
