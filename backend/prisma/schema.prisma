@@ -49,7 +49,7 @@ model UserTeam {
   teamId String
 
   user User @relation(fields: [userId], references: [id])
-  game Team @relation(fields: [teamId], references: [id])
+  team Team @relation(fields: [teamId], references: [id])
 
   @@id([userId, teamId])
 }
@@ -95,7 +95,7 @@ model Team {
   updatedAt DateTime @updatedAt
 
   game         Game                @relation(fields: [gameId], references: [id])
-  userTeam     UserTeam[]
+  members      UserTeam[]
   teamMessages UserToTeamMessage[]
 }
 
