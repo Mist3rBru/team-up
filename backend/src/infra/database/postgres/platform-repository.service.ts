@@ -1,10 +1,16 @@
+import { Game } from '#domain/entities/game-entity.js'
 import { Platform } from '#domain/entities/platform-entity.js'
 import { PlatformMapper } from '#domain/mappers/platform-mapper.js'
-import type { IListPlatformsRepository } from '#services/protocols/database/platform-repository.js'
+import type {
+  IListPlatformGamesRepository,
+  IListPlatformsRepository,
+} from '#services/protocols/database/platform-repository.js'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from './prisma.service'
 
-interface IPlatformRepository extends IListPlatformsRepository {}
+interface IPlatformRepository
+  extends IListPlatformsRepository,
+    IListPlatformGamesRepository {}
 
 @Injectable()
 export class PlatformRepository implements IPlatformRepository {
@@ -20,6 +26,20 @@ export class PlatformRepository implements IPlatformRepository {
     const data = await this.db.platform.findMany()
 
     return data.map(d => new Platform(d))
+  }
+
+  async listGames(platformId: string): Promise<Game[]> {
+    const data = await this.db.game.findMany({
+      where: {
+        gamePlatforms: {
+          some: {
+            platformId,
+          },
+        },
+      },
+    })
+
+    return data.map(d => new Game(d))
   }
 
   async findById(id: string): Promise<Platform | null> {
