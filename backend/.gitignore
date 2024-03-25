@@ -1,8 +1,9 @@
 node_modules/
 dist/
 coverage/
-public/uploads/*
-public/zips/*
+public/uploads/img/*
+!public/uploads/img/default-user-avatar.jpg
 !public/**/.gitkeep
 
+.env
 prisma/dev.db*

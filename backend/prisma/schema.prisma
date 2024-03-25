@@ -90,12 +90,14 @@ model GamePlatform {
 }
 
 model Team {
-  id        String   @id
-  gameId    String
-  name      String
-  isOpen    Boolean
-  createdAt DateTime
-  updatedAt DateTime @updatedAt
+  id          String   @id
+  gameId      String
+  name        String
+  description String
+  isPublic    Boolean
+  isOpen      Boolean
+  createdAt   DateTime
+  updatedAt   DateTime @updatedAt
 
   game          Game                @relation(fields: [gameId], references: [id])
   members       UserTeam[]
@@ -106,6 +108,7 @@ model Team {
 model TeamSolicitation {
   userId String
   teamId String
+  status String
 
   user User @relation(fields: [userId], references: [id])
   team Team @relation(fields: [teamId], references: [id])

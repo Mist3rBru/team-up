@@ -10,7 +10,9 @@ export class TeamMapper {
       id: this.props.id,
       gameId: this.props.gameId,
       name: this.props.name,
+      description: this.props.description,
       isOpen: this.props.isOpen,
+      isPublic: this.props.isPublic,
       createdAt: this.props.createdAt,
       updatedAt: this.props.updatedAt,
     }
@@ -20,7 +22,9 @@ export class TeamMapper {
     return {
       id: this.props.id,
       name: this.props.name,
+      description: this.props.description,
       isOpen: this.props.isOpen,
+      isPublic: this.props.isPublic,
       createdAt: this.props.createdAt,
       updatedAt: this.props.updatedAt,
 

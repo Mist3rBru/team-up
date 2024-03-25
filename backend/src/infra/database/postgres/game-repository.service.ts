@@ -42,7 +42,7 @@ export class GameRepository implements IGameRepository {
       d =>
         new Team({
           ...d,
-          members: d.members.flatMap(({ user, isModerator }) => ({
+          members: d.members.map(({ user, isModerator }) => ({
             ...user,
             isModerator,
           })),
