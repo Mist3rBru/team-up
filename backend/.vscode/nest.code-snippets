@@ -148,6 +148,7 @@
       "",
       "  public toPrisma(): Prisma$1 {",
       "    return {",
+      "      id: this.props.id,",
       "      $0",
       "    }",
       "  }",

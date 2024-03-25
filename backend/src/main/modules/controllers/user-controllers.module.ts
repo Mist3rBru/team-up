@@ -25,4 +25,4 @@ import { Module } from '@nestjs/common'
     { provide: IFindUserById, useClass: FindUserByIdService },
   ],
 })
-export class UserControllerModule {}
+export class UserControllersModule {}
