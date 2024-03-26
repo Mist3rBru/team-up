@@ -1,3 +1,4 @@
+import { Game } from '#domain/entities/game-entity.js'
 import { UUID } from '#domain/entities/uuid.js'
 
 export class Platform {
@@ -9,6 +10,8 @@ export class Platform {
       id: new UUID(params.id),
       createdAt: params.createdAt ?? new Date(),
       updatedAt: params.updatedAt ?? new Date(),
+
+      games: params.games?.map(game => new Game(game)),
     }
   }
 
@@ -31,6 +34,10 @@ export class Platform {
   get updatedAt(): Date {
     return this.props.updatedAt
   }
+
+  get games(): Game[] | undefined {
+    return this.props.games
+  }
 }
 
 export namespace Platform {
@@ -40,6 +47,8 @@ export namespace Platform {
     name: string
     createdAt: Date
     updatedAt: Date
+
+    games?: Game[]
   }
 
   export interface Params {
@@ -48,5 +57,7 @@ export namespace Platform {
     name: string
     createdAt?: Date
     updatedAt?: Date
+
+    games?: Game.Params[]
   }
 }

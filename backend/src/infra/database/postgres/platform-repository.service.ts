@@ -1,9 +1,8 @@
-import { Game } from '#domain/entities/game-entity.js'
 import { Platform } from '#domain/entities/platform-entity.js'
 import { PlatformMapper } from '#domain/mappers/platform-mapper.js'
 import type {
   ICreatePlatformRepository,
-  IListPlatformGamesRepository,
+  IFindPlatformByIdRepository,
   IListPlatformsRepository,
 } from '#services/protocols/database/platform-repository.js'
 import { Injectable } from '@nestjs/common'
@@ -11,8 +10,8 @@ import { PrismaService } from './prisma.service'
 
 interface IPlatformRepository
   extends ICreatePlatformRepository,
-    IListPlatformsRepository,
-    IListPlatformGamesRepository {}
+    IFindPlatformByIdRepository,
+    IListPlatformsRepository {}
 
 @Injectable()
 export class PlatformRepository implements IPlatformRepository {
@@ -30,24 +29,17 @@ export class PlatformRepository implements IPlatformRepository {
     return data.map(d => new Platform(d))
   }
 
-  async listGames(platformId: string): Promise<Game[]> {
-    const data = await this.db.game.findMany({
-      where: {
-        gamePlatforms: {
-          some: {
-            platformId,
-          },
-        },
-      },
-    })
-
-    return data.map(d => new Game(d))
-  }
-
-  async findById(id: string): Promise<Platform | null> {
+  async findById(platformId: string): Promise<Platform | null> {
     const data = await this.db.platform.findUnique({
       where: {
-        id,
+        id: platformId,
+      },
+      include: {
+        gamePlatforms: {
+          select: {
+            game: true,
+          },
+        },
       },
     })
 
@@ -55,7 +47,10 @@ export class PlatformRepository implements IPlatformRepository {
       return null
     }
 
-    return new Platform(data)
+    return new Platform({
+      ...data,
+      games: data.gamePlatforms.map(({ game }) => game),
+    })
   }
 
   async update(data: Platform): Promise<void> {
