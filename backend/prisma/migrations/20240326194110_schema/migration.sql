@@ -10,6 +10,14 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
+CREATE TABLE "UserAccess" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "access" TEXT NOT NULL,
+    CONSTRAINT "UserAccess_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
 CREATE TABLE "UserPlatform" (
     "userId" TEXT NOT NULL,
     "platformId" TEXT NOT NULL,
@@ -73,6 +81,8 @@ CREATE TABLE "Team" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "gameId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "isPublic" BOOLEAN NOT NULL,
     "isOpen" BOOLEAN NOT NULL,
     "createdAt" DATETIME NOT NULL,
     "updatedAt" DATETIME NOT NULL,
@@ -80,13 +90,15 @@ CREATE TABLE "Team" (
 );
 
 -- CreateTable
-CREATE TABLE "TeamSolicitation" (
+CREATE TABLE "JoinTeamRequest" (
+    "id" TEXT NOT NULL PRIMARY KEY,
     "userId" TEXT NOT NULL,
     "teamId" TEXT NOT NULL,
-
-    PRIMARY KEY ("userId", "teamId"),
-    CONSTRAINT "TeamSolicitation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "TeamSolicitation_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "status" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "JoinTeamRequest_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "JoinTeamRequest_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
