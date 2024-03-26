@@ -2,6 +2,7 @@ import { Game } from '#domain/entities/game-entity.js'
 import { Platform } from '#domain/entities/platform-entity.js'
 import { PlatformMapper } from '#domain/mappers/platform-mapper.js'
 import type {
+  ICreatePlatformRepository,
   IListPlatformGamesRepository,
   IListPlatformsRepository,
 } from '#services/protocols/database/platform-repository.js'
@@ -9,7 +10,8 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from './prisma.service'
 
 interface IPlatformRepository
-  extends IListPlatformsRepository,
+  extends ICreatePlatformRepository,
+    IListPlatformsRepository,
     IListPlatformGamesRepository {}
 
 @Injectable()
