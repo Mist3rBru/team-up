@@ -27,7 +27,6 @@ export class UpdateJoinTeamRequestService implements IUpdateJoinTeamRequest {
       throw new NotFoundException('solicitação não encontrada')
     }
 
-
     if (!request.team) {
       throw new InternalServerErrorException('time não encontrado')
     }

@@ -9,7 +9,7 @@ export class User {
       id: new UUID(params.id),
       img: params.img ?? '',
       createdAt: params.createdAt ?? new Date(),
-      updatedAt: params.createdAt ?? new Date(),
+      updatedAt: params.updatedAt ?? new Date(),
     }
   }
 

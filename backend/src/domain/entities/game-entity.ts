@@ -9,7 +9,7 @@ export class Game {
       ...params,
       id: new UUID(params.id),
       createdAt: params.createdAt ?? new Date(),
-      updatedAt: params.createdAt ?? new Date(),
+      updatedAt: params.updatedAt ?? new Date(),
 
       platforms: params.platforms?.map(platform => new Platform(platform)),
     }

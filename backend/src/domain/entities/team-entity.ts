@@ -1,3 +1,4 @@
+import { Game } from '#domain/entities/game-entity.js'
 import { User } from '#domain/entities/user-entity.js'
 import { UUID } from '#domain/entities/uuid.js'
 
@@ -9,8 +10,9 @@ export class Team {
       ...params,
       id: new UUID(params.id),
       createdAt: params.createdAt ?? new Date(),
-      updatedAt: params.createdAt ?? new Date(),
+      updatedAt: params.updatedAt ?? new Date(),
 
+      game: params.game && new Game(params.game),
       members: params.members?.map(member => new User(member)),
     }
   }
@@ -47,6 +49,10 @@ export class Team {
     return this.props.updatedAt
   }
 
+  get game(): Game | undefined {
+    return this.props.game
+  }
+
   get members(): User[] | undefined {
     return this.props.members
   }
@@ -63,6 +69,7 @@ export namespace Team {
     createdAt: Date
     updatedAt: Date
 
+    game?: Game
     members?: User[]
   }
 
@@ -76,6 +83,7 @@ export namespace Team {
     createdAt?: Date
     updatedAt?: Date
 
+    game?: Game.Params
     members?: User.Params[]
   }
 }

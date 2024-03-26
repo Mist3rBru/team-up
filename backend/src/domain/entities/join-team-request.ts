@@ -31,7 +31,7 @@ export class JoinTeamRequest {
       id: new UUID(params.id),
       status: params.status ? this.verifyStatus(params.status) : 'pending',
       createdAt: params.createdAt ?? new Date(),
-      updatedAt: params.createdAt ?? new Date(),
+      updatedAt: params.updatedAt ?? new Date(),
 
       team: params.team && new Team(params.team),
       user: params.user && new User(params.user),

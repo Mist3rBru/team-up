@@ -1,7 +1,10 @@
 {
   "createControllerClass": {
     "scope": "typescript",
-    "prefix": ["controller", "createController"],
+    "prefix": [
+      "controller",
+      "createController"
+    ],
     "body": [
       "import { Controller, ${2:Get} } from '@nestjs/common';",
       "",
@@ -20,7 +23,10 @@
   },
   "createServiceClass": {
     "scope": "typescript",
-    "prefix": ["service", "createService"],
+    "prefix": [
+      "service",
+      "createService"
+    ],
     "body": [
       "import { Injectable } from '@nestjs/common'",
       "",
@@ -37,7 +43,11 @@
   },
   "createRepositoryClass": {
     "scope": "typescript",
-    "prefix": ["repo", "repository", "createRepository"],
+    "prefix": [
+      "repo",
+      "repository",
+      "createRepository"
+    ],
     "body": [
       "import { Injectable } from '@nestjs/common'",
       "import { PrismaService } from './prisma.service'",
@@ -93,7 +103,10 @@
   },
   "createInterface": {
     "scope": "typescript",
-    "prefix": ["interface", "createInterface"],
+    "prefix": [
+      "interface",
+      "createInterface"
+    ],
     "body": [
       "export abstract class I$1 {",
       "  abstract $2(data: I$1.Params): Promise<I$1.Result>",
@@ -113,7 +126,10 @@
   },
   "createEntity": {
     "scope": "typescript",
-    "prefix": ["entity", "createEntity"],
+    "prefix": [
+      "entity",
+      "createEntity"
+    ],
     "body": [
       "export class $1 {",
       "  private readonly props: $1.Props",
@@ -123,7 +139,7 @@
       "      ...params,",
       "      id: new UUID(params.id),",
       "      createdAt: params.createdAt ?? new Date(),",
-      "      updatedAt: params.createdAt ?? new Date(),",
+      "      updatedAt: params.updatedAt ?? new Date(),",
       "    }",
       "  }",
       "}",
@@ -147,7 +163,10 @@
   },
   "createMapper": {
     "scope": "typescript",
-    "prefix": ["mapper", "createMapper"],
+    "prefix": [
+      "mapper",
+      "createMapper"
+    ],
     "body": [
       "import { $1 as Prisma$1 } from '@prisma/client'",
       "",
@@ -172,7 +191,10 @@
   },
   "createModule": {
     "scope": "typescript",
-    "prefix": ["module", "createModule"],
+    "prefix": [
+      "module",
+      "createModule"
+    ],
     "body": [
       "import { Module } from '@nestjs/common'",
       "",
@@ -187,7 +209,10 @@
   },
   "createGuard": {
     "scope": "typescript",
-    "prefix": ["guard", "createGuard"],
+    "prefix": [
+      "guard",
+      "createGuard"
+    ],
     "body": [
       "import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'",
       "import { Observable } from 'rxjs'",
@@ -209,7 +234,10 @@
   },
   "createDecorator": {
     "scope": "typescript",
-    "prefix": ["decorator", "createDecorator"],
+    "prefix": [
+      "decorator",
+      "createDecorator"
+    ],
     "body": [
       "import { applyDecorators } from '@nestjs/common'",
       "",
@@ -223,7 +251,10 @@
   },
   "createParamDecorator": {
     "scope": "typescript",
-    "prefix": ["paramDecorator", "createParamDecorator"],
+    "prefix": [
+      "paramDecorator",
+      "createParamDecorator"
+    ],
     "body": [
       "import {",
       "  ExecutionContext,",
