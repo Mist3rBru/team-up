@@ -16,7 +16,7 @@ export class UserMapper {
     }
   }
 
-  public toHttp() {
+  public toOwner() {
     return {
       id: this.props.id,
       img: this.props.img,
@@ -27,7 +27,7 @@ export class UserMapper {
     }
   }
 
-  public toSample() {
+  public toPublic() {
     return {
       id: this.props.id,
       img: this.props.img,
@@ -41,6 +41,14 @@ export class UserMapper {
       img: this.props.img,
       name: this.props.name,
       isModerator: this.props.isModerator,
+    }
+  }
+
+  public toSample() {
+    return {
+      id: this.props.id,
+      img: this.props.img,
+      name: this.props.name,
     }
   }
 }

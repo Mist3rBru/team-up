@@ -9,9 +9,9 @@ export class FindUserByIdController {
   @Get('/users/:userId')
   async handle(
     @Param('userId', ParseUUIDPipe) userId: string
-  ): Promise<ReturnType<UserMapper['toHttp']>> {
+  ): Promise<ReturnType<UserMapper['toPublic']>> {
     const user = await this.findUserByIdService.findById(userId)
 
-    return new UserMapper(user).toHttp()
+    return new UserMapper(user).toPublic()
   }
 }

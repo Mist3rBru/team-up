@@ -15,7 +15,7 @@ export class FindUserByTokenService implements IFindUserByToken {
     private readonly findUserByIdRepository: IFindUserByIdRepository
   ) {}
 
-  async find(data: IFindUserByToken.Params): Promise<User | null> {
+  async find(data: IFindUserByToken.Params): Promise<User> {
     const { token } = data
 
     const userId = await this.decrypter.decrypt<string>(token)

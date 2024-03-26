@@ -22,13 +22,13 @@ export class CreateUserController {
 
   @Post('/user')
   async handle(@Body() body: CreateUserBodyDto): Promise<{
-    user: ReturnType<UserMapper['toSample']>
+    user: ReturnType<UserMapper['toPublic']>
     token: string
   }> {
     const { user, token } = await this.createUserService.create(body)
 
     return {
-      user: new UserMapper(user).toSample(),
+      user: new UserMapper(user).toPublic(),
       token,
     }
   }
