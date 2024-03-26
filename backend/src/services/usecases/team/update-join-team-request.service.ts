@@ -27,11 +27,6 @@ export class UpdateJoinTeamRequestService implements IUpdateJoinTeamRequest {
       throw new NotFoundException('solicitação não encontrada')
     }
 
-    const user = await this.findUserByToken.find({ token })
-
-    if (!user) {
-      throw new UnauthorizedException('token de acesso inválido')
-    }
 
     if (!request.team) {
       throw new InternalServerErrorException('time não encontrado')
@@ -41,6 +36,7 @@ export class UpdateJoinTeamRequestService implements IUpdateJoinTeamRequest {
       throw new InternalServerErrorException('membros do time não encontrado')
     }
 
+    const user = await this.findUserByToken.find({ token })
     const member = request.team.members.find(_member => _member.id === user.id)
 
     if (!member?.isModerator) {

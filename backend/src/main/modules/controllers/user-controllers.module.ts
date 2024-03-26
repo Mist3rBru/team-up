@@ -2,10 +2,12 @@ import { ICreateUser } from '#domain/usecases/user/create-user.js'
 import { IFindUserById } from '#domain/usecases/user/find-user-by-id.js'
 import { IFindUserByToken } from '#domain/usecases/user/find-user-by-token.js'
 import { IListUserGames } from '#domain/usecases/user/list-user-games.js'
+import { IListUserPlatforms } from '#domain/usecases/user/list-user-platforms.js'
 import { CreateUserController } from '#presentation/controllers/user/create-user.controller.js'
 import { FindUserByIdController } from '#presentation/controllers/user/find-user-by-id.controller.js'
 import { FindUserByTokenController } from '#presentation/controllers/user/find-user-by-token.controller.js'
 import { ListUserGamesController } from '#presentation/controllers/user/list-user-games.controller.js'
+import { ListUserPlatformsController } from '#presentation/controllers/user/list-user-platforms.controller.js'
 import { CreateUserService } from '#services/usecases/user/create-user.service.js'
 import { FindUserByIdService } from '#services/usecases/user/find-user-by-id.service.js'
 import { FindUserByTokenService } from '#services/usecases/user/find-user-by-token.service.js'
@@ -22,6 +24,7 @@ import { Module } from '@nestjs/common'
     FindUserByIdController,
     FindUserByTokenController,
     ListUserGamesController,
+    ListUserPlatformsController,
   ],
   providers: [
     PrismaService,
@@ -29,6 +32,7 @@ import { Module } from '@nestjs/common'
     { provide: IFindUserById, useClass: FindUserByIdService },
     { provide: IFindUserByToken, useClass: FindUserByTokenService },
     { provide: IListUserGames, useClass: UserRepository },
+    { provide: IListUserPlatforms, useClass: UserRepository },
   ],
 })
 export class UserControllersModule {}

@@ -1,4 +1,5 @@
 import { Game } from '#domain/entities/game-entity.js'
+import { Platform } from '#domain/entities/platform-entity.js'
 import { User } from '#domain/entities/user-entity.js'
 import { UserMapper } from '#domain/mappers/user-mapper.js'
 import type {
@@ -6,6 +7,7 @@ import type {
   IFindUserByEmailRepository,
   IFindUserByIdRepository,
   IListUserGamesRepository,
+  IListUserPlatformsRepository,
 } from '#services/protocols/database/user-repository.js'
 import { PrismaService } from '#infra/database/postgres/prisma.service.js'
 import { Injectable } from '@nestjs/common'
@@ -14,7 +16,8 @@ interface IUserRepository
   extends ICreateUserRepository,
     IFindUserByEmailRepository,
     IFindUserByIdRepository,
-    IListUserGamesRepository {}
+    IListUserGamesRepository,
+    IListUserPlatformsRepository {}
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -88,5 +91,19 @@ export class UserRepository implements IUserRepository {
           platforms: d.gamePlatforms.map(({ platform }) => platform),
         })
     )
+  }
+
+  async listPlatforms(userId: string): Promise<Platform[]> {
+    const data = await this.db.platform.findMany({
+      where: {
+        userPlatforms: {
+          some: {
+            userId,
+          },
+        },
+      },
+    })
+
+    return data.map(d => new Platform(d))
   }
 }
