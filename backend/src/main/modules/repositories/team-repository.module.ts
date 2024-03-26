@@ -1,6 +1,7 @@
 import {
   ICreateJoinTeamRequestRepository,
   ICreateTeamMemberRepository,
+  ICreateTeamRepository,
   IFindJoinTeamRequestByIdRepository,
   IFindTeamByIdRepository,
   IUpdateJoinTeamRequestRepository,
@@ -13,6 +14,10 @@ import { Module } from '@nestjs/common'
 @Module({
   providers: [
     PrismaService,
+    {
+      provide: ICreateTeamRepository,
+      useClass: TeamRepository,
+    },
     {
       provide: IFindTeamByIdRepository,
       useClass: TeamRepository,
@@ -39,12 +44,13 @@ import { Module } from '@nestjs/common'
     },
   ],
   exports: [
+    ICreateTeamRepository,
     IFindTeamByIdRepository,
     ICreateTeamMemberRepository,
     IUpdateTeamMemberRepository,
-    IFindJoinTeamRequestByIdRepository,
     ICreateJoinTeamRequestRepository,
     IUpdateJoinTeamRequestRepository,
+    IFindJoinTeamRequestByIdRepository,
   ],
 })
 export class TeamRepositoryModule {}

@@ -26,7 +26,11 @@ export class Team {
   }
 
   get name(): string {
-    return this.props.name
+    return (
+      this.props.name ??
+      this.members?.map(member => member.name).join(', ') ??
+      ''
+    )
   }
 
   get description(): string {
@@ -62,7 +66,7 @@ export namespace Team {
   export interface Props {
     id: UUID
     gameId: string
-    name: string
+    name?: string
     description: string
     isOpen: boolean
     isPublic: boolean
@@ -76,7 +80,7 @@ export namespace Team {
   export interface Params {
     id?: string
     gameId: string
-    name: string
+    name?: string
     description: string
     isOpen: boolean
     isPublic: boolean

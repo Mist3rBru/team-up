@@ -6,6 +6,7 @@ import { TeamMapper } from '#domain/mappers/team-mapper.js'
 import type {
   ICreateJoinTeamRequestRepository,
   ICreateTeamMemberRepository,
+  ICreateTeamRepository,
   IFindTeamByIdRepository,
   IUpdateJoinTeamRequestRepository,
   IUpdateTeamMemberRepository,
@@ -14,7 +15,8 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from './prisma.service'
 
 interface ITeamRepository
-  extends IFindTeamByIdRepository,
+  extends ICreateTeamRepository,
+    IFindTeamByIdRepository,
     ICreateTeamMemberRepository,
     IUpdateTeamMemberRepository,
     ICreateJoinTeamRequestRepository,
@@ -24,15 +26,15 @@ interface ITeamRepository
 export class TeamRepository implements ITeamRepository {
   constructor(private readonly db: PrismaService) {}
 
-  async create(team: Team, user: User): Promise<void> {
+  async create(team: Team, members: string[]): Promise<void> {
     await this.db.team.create({
       data: {
         ...new TeamMapper(team).toPrisma(),
         members: {
-          create: {
-            userId: user.id,
-            isModerator: true,
-          },
+          create: members.map((memberId, i) => ({
+            userId: memberId,
+            isModerator: i === 0,
+          })),
         },
       },
     })
@@ -46,8 +48,8 @@ export class TeamRepository implements ITeamRepository {
       include: {
         members: {
           select: {
-            isModerator: true,
             user: true,
+            isModerator: true,
           },
         },
       },

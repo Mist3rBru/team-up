@@ -2,6 +2,10 @@ import type { JoinTeamRequest } from '#domain/entities/join-team-request.js'
 import type { Team } from '#domain/entities/team-entity.js'
 import type { User } from '#domain/entities/user-entity.js'
 
+export abstract class ICreateTeamRepository {
+  abstract create(team: Team, members: string[]): Promise<void>
+}
+
 export abstract class IFindTeamByIdRepository {
   abstract findById(teamId: string): Promise<Team | null>
 }

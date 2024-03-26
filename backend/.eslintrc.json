@@ -10,7 +10,8 @@
     "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
     "import/no-duplicates": "off",
 
-    "@typescript-eslint/max-params": "off"
+    "@typescript-eslint/max-params": "off",
+    "@typescript-eslint/use-unknown-in-catch-callback-variable": "off"
   },
   "overrides": [
     {
