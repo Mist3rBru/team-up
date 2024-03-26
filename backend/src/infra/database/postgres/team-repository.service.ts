@@ -1,9 +1,13 @@
+import type { JoinTeamRequest } from '#domain/entities/join-team-request.js'
 import { Team } from '#domain/entities/team-entity.js'
 import type { User } from '#domain/entities/user-entity.js'
+import { JoinTeamRequestMapper } from '#domain/mappers/join-team-request-mapper.js'
 import { TeamMapper } from '#domain/mappers/team-mapper.js'
 import type {
+  ICreateJoinTeamRequestRepository,
   ICreateTeamMemberRepository,
   IFindTeamByIdRepository,
+  IUpdateJoinTeamRequestRepository,
   IUpdateTeamMemberRepository,
 } from '#services/protocols/database/team-repository.js'
 import { Injectable } from '@nestjs/common'
@@ -12,7 +16,9 @@ import { PrismaService } from './prisma.service'
 interface ITeamRepository
   extends IFindTeamByIdRepository,
     ICreateTeamMemberRepository,
-    IUpdateTeamMemberRepository {}
+    IUpdateTeamMemberRepository,
+    ICreateJoinTeamRequestRepository,
+    IUpdateJoinTeamRequestRepository {}
 
 @Injectable()
 export class TeamRepository implements ITeamRepository {
@@ -73,6 +79,21 @@ export class TeamRepository implements ITeamRepository {
     await this.db.team.delete({
       where: {
         id,
+      },
+    })
+  }
+
+  async createRequest(joinTeamRequest: JoinTeamRequest): Promise<void> {
+    await this.db.joinTeamRequest.create({
+      data: new JoinTeamRequestMapper(joinTeamRequest).toPrisma(),
+    })
+  }
+
+  async updateRequest(joinTeamRequest: JoinTeamRequest): Promise<void> {
+    await this.db.joinTeamRequest.update({
+      data: new JoinTeamRequestMapper(joinTeamRequest).toPrisma(),
+      where: {
+        id: joinTeamRequest.id,
       },
     })
   }

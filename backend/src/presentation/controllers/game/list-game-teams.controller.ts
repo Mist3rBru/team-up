@@ -6,7 +6,7 @@ import { Controller, Get, Param, ParseUUIDPipe } from '@nestjs/common'
 export class ListGameTeamsController {
   constructor(private readonly listGameTeamsService: IListGameTeams) {}
 
-  @Get('')
+  @Get('/games/:gameId/teams')
   async handle(
     @Param('gameId', ParseUUIDPipe) gameId: string
   ): Promise<ReturnType<TeamMapper['toHttp']>[]> {
