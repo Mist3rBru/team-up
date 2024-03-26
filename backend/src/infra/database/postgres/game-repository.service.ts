@@ -1,19 +1,29 @@
 import { Game } from '#domain/entities/game-entity.js'
 import { Team } from '#domain/entities/team-entity.js'
 import { GameMapper } from '#domain/mappers/game-mapper.js'
-import type { IListGameTeamsRepository } from '#services/protocols/database/game-repository.js'
+import type {
+  ICreateGameRepository,
+  IListGameTeamsRepository,
+} from '#services/protocols/database/game-repository.js'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from './prisma.service'
 
-interface IGameRepository extends IListGameTeamsRepository {}
+interface IGameRepository
+  extends ICreateGameRepository,
+    IListGameTeamsRepository {}
 
 @Injectable()
 export class GameRepository implements IGameRepository {
   constructor(private readonly db: PrismaService) {}
 
-  async create(data: Game): Promise<void> {
+  async create(game: Game, platforms: string[]): Promise<void> {
     await this.db.game.create({
-      data: new GameMapper(data).toPrisma(),
+      data: {
+        ...new GameMapper(game).toPrisma(),
+        gamePlatforms: {
+          create: platforms.map(platformId => ({ platformId })),
+        },
+      },
     })
   }
 
