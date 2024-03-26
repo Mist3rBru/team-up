@@ -1,9 +1,11 @@
+import { Game } from '#domain/entities/game-entity.js'
 import { User } from '#domain/entities/user-entity.js'
 import { UserMapper } from '#domain/mappers/user-mapper.js'
 import type {
   ICreateUserRepository,
   IFindUserByEmailRepository,
   IFindUserByIdRepository,
+  IListUserGamesRepository,
 } from '#services/protocols/database/user-repository.js'
 import { PrismaService } from '#infra/database/postgres/prisma.service.js'
 import { Injectable } from '@nestjs/common'
@@ -11,7 +13,8 @@ import { Injectable } from '@nestjs/common'
 interface IUserRepository
   extends ICreateUserRepository,
     IFindUserByEmailRepository,
-    IFindUserByIdRepository {}
+    IFindUserByIdRepository,
+    IListUserGamesRepository {}
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -58,5 +61,32 @@ export class UserRepository implements IUserRepository {
         id: data.id,
       },
     })
+  }
+
+  async listGames(userId: string): Promise<Game[]> {
+    const data = await this.db.game.findMany({
+      where: {
+        userGames: {
+          some: {
+            userId,
+          },
+        },
+      },
+      include: {
+        gamePlatforms: {
+          select: {
+            platform: true,
+          },
+        },
+      },
+    })
+
+    return data.map(
+      d =>
+        new Game({
+          ...d,
+          platforms: d.gamePlatforms.map(({ platform }) => platform),
+        })
+    )
   }
 }

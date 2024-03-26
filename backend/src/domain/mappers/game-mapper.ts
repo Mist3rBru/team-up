@@ -1,4 +1,5 @@
 import type { Game } from '#domain/entities/game-entity.js'
+import { PlatformMapper } from '#domain/mappers/platform-mapper.js'
 import type { Game as PrismaPlatform } from '@prisma/client'
 
 export class GameMapper {
@@ -21,6 +22,10 @@ export class GameMapper {
       name: this.props.name,
       createdAt: this.props.createdAt,
       updatedAt: this.props.updatedAt,
+
+      platforms: this.props.platforms?.map(platform =>
+        new PlatformMapper(platform).toHttp()
+      ),
     }
   }
 }
