@@ -1,6 +1,7 @@
 import {
   ICreateJoinTeamRequestRepository,
   ICreateTeamMemberRepository,
+  IFindJoinTeamRequestByIdRepository,
   IFindTeamByIdRepository,
   IUpdateJoinTeamRequestRepository,
   IUpdateTeamMemberRepository,
@@ -25,6 +26,10 @@ import { Module } from '@nestjs/common'
       useClass: TeamRepository,
     },
     {
+      provide: IFindJoinTeamRequestByIdRepository,
+      useClass: TeamRepository,
+    },
+    {
       provide: ICreateJoinTeamRequestRepository,
       useClass: TeamRepository,
     },
@@ -37,6 +42,7 @@ import { Module } from '@nestjs/common'
     IFindTeamByIdRepository,
     ICreateTeamMemberRepository,
     IUpdateTeamMemberRepository,
+    IFindJoinTeamRequestByIdRepository,
     ICreateJoinTeamRequestRepository,
     IUpdateJoinTeamRequestRepository,
   ],

@@ -22,7 +22,16 @@ model User {
   sentMessages     UserToUserMessage[] @relation(name: "sender")
   receivedMessages UserToUserMessage[] @relation(name: "receiver")
   teamMessages     UserToTeamMessage[]
-  teamSolicitation JoinTeamRequest[]
+  teamRequests     JoinTeamRequest[]
+  userAccess       UserAccess[]
+}
+
+model UserAccess {
+  id     String @id
+  userId String
+  access String
+
+  user User @relation(fields: [userId], references: [id])
 }
 
 model UserPlatform {

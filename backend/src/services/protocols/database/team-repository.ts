@@ -6,6 +6,12 @@ export abstract class IFindTeamByIdRepository {
   abstract findById(teamId: string): Promise<Team | null>
 }
 
+export abstract class IFindJoinTeamRequestByIdRepository {
+  abstract findRequestById(
+    joinTeamRequestId: string
+  ): Promise<JoinTeamRequest | null>
+}
+
 export abstract class ICreateJoinTeamRequestRepository {
   abstract createRequest(joinTeamRequest: JoinTeamRequest): Promise<void>
 }
