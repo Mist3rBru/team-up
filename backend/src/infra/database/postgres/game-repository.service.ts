@@ -16,13 +16,24 @@ interface IGameRepository
 export class GameRepository implements IGameRepository {
   constructor(private readonly db: PrismaService) {}
 
-  async create(game: Game, platforms: string[]): Promise<void> {
+  async create(
+    game: Game,
+    platforms: string[],
+    users?: string[]
+  ): Promise<void> {
     await this.db.game.create({
       data: {
         ...new GameMapper(game).toPrisma(),
         gamePlatforms: {
           create: platforms.map(platformId => ({ platformId })),
         },
+        ...(users && {
+          userGames: {
+            createMany: {
+              data: users.map(userId => ({ userId })),
+            },
+          },
+        }),
       },
     })
   }

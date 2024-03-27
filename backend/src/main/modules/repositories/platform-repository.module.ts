@@ -1,6 +1,7 @@
 import {
   ICreatePlatformRepository,
   IFindPlatformByIdRepository,
+  IFindPlatformByNameRepository,
   IListPlatformsRepository,
 } from '#services/protocols/database/platform-repository.js'
 import { PlatformRepository } from '#infra/database/postgres/platform-repository.service.js'
@@ -22,10 +23,15 @@ import { Module } from '@nestjs/common'
       provide: IFindPlatformByIdRepository,
       useClass: PlatformRepository,
     },
+    {
+      provide: IFindPlatformByNameRepository,
+      useClass: PlatformRepository,
+    },
   ],
   exports: [
     ICreatePlatformRepository,
     IFindPlatformByIdRepository,
+    IFindPlatformByNameRepository,
     IListPlatformsRepository,
   ],
 })

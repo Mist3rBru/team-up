@@ -11,3 +11,7 @@ export abstract class IListPlatformsRepository {
 export abstract class IFindPlatformByIdRepository {
   abstract findById(platformId: string): Promise<Platform | null>
 }
+
+export abstract class IFindPlatformByNameRepository {
+  abstract findByName(name: string): Promise<Platform | null>
+}
