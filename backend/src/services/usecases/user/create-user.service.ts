@@ -15,7 +15,11 @@ export class CreateUserService implements ICreateUser {
     private readonly encrypter: IEncrypter
   ) {}
 
-  async create(data: OnlyRequired<User.Params>): Promise<ICreateUser.Result> {
+  async create(data: ICreateUser.Params): Promise<ICreateUser.Result> {
+    if (!data.email) {
+      throw new BadRequestException('email não encontrado')
+    }
+
     const exists = await this.findUserByEmailRepository.findByEmail(data.email)
 
     if (exists) {

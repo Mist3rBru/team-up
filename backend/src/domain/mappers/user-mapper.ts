@@ -7,6 +7,7 @@ export class UserMapper {
   public toPrisma(): PrismaUser {
     return {
       id: this.props.id,
+      steamId: this.props.steamId,
       img: this.props.img,
       name: this.props.name,
       email: this.props.email,

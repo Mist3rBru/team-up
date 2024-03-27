@@ -33,9 +33,9 @@ export class UserRepository implements IUserRepository {
   }
 
   async findById(id: string): Promise<User | null> {
-    const data = await this.db.user.findUnique({
+    const data = await this.db.user.findFirst({
       where: {
-        id,
+        OR: [{ id }, { steamId: id }],
       },
     })
 

@@ -7,6 +7,8 @@ export class User {
     this.props = {
       ...params,
       id: new UUID(params.id),
+      steamId: params.steamId ?? null,
+      email: params.email ?? null,
       img: params.img ?? '',
       createdAt: params.createdAt ?? new Date(),
       updatedAt: params.updatedAt ?? new Date(),
@@ -17,6 +19,10 @@ export class User {
     return this.props.id.value
   }
 
+  get steamId(): string | null {
+    return this.props.steamId
+  }
+
   get img(): string {
     return this.props.img
   }
@@ -25,7 +31,7 @@ export class User {
     return this.props.name
   }
 
-  get email(): string {
+  get email(): string | null {
     return this.props.email
   }
 
@@ -53,9 +59,10 @@ export class User {
 export namespace User {
   export interface Props {
     id: UUID
+    steamId: string | null
     img: string
     name: string
-    email: string
+    email: string | null
     password: string
     isModerator?: boolean
     createdAt: Date
@@ -64,9 +71,10 @@ export namespace User {
 
   export interface Params {
     id?: string
+    steamId?: string | null
     img?: string
     name: string
-    email: string
+    email?: string | null
     password: string
     isModerator?: boolean
     createdAt?: Date

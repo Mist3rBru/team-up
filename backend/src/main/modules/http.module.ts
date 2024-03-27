@@ -1,3 +1,4 @@
+import { AuthControllersModule } from '#main/modules/controllers/auth-controllers.module.js'
 import { GameControllersModule } from '#main/modules/controllers/game-controllers.module.js'
 import { PlatformControllersModule } from '#main/modules/controllers/platform-controllers.module.js'
 import { TeamControllersModule } from '#main/modules/controllers/team-controllers.module.js'
@@ -9,6 +10,7 @@ import { resolve } from 'node:path'
 @Module({
   imports: [
     MulterModule.register({ dest: resolve('public/uploads') }),
+    AuthControllersModule,
     UserControllersModule,
     PlatformControllersModule,
     GameControllersModule,

@@ -3,15 +3,16 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DB_URL")
 }
 
 model User {
   id        String   @id
+  steamId   String?  @unique
   img       String
   name      String
-  email     String   @unique
+  email     String?  @unique
   password  String
   createdAt DateTime
   updatedAt DateTime @updatedAt

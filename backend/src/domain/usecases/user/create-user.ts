@@ -5,7 +5,7 @@ export abstract class ICreateUser {
 }
 
 export namespace ICreateUser {
-  export type Params = OnlyRequired<User.Params>
+  export type Params = User.Params
 
   export interface Result {
     user: User
