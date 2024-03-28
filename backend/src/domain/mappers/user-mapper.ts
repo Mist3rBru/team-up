@@ -23,9 +23,18 @@ export class UserMapper {
       id: this.props.id,
       img: this.props.img,
       name: this.props.name,
+      displayName: this.props.displayName,
       email: this.props.email,
       createdAt: this.props.createdAt,
       updatedAt: this.props.updatedAt,
+    }
+  }
+
+  public toLogin() {
+    return {
+      id: this.props.id,
+      img: this.props.img,
+      name: this.props.displayName,
     }
   }
 
@@ -33,7 +42,7 @@ export class UserMapper {
     return {
       id: this.props.id,
       img: this.props.img,
-      name: this.props.name,
+      name: this.props.displayName,
     }
   }
 
@@ -41,7 +50,7 @@ export class UserMapper {
     return {
       id: this.props.id,
       img: this.props.img,
-      name: this.props.name,
+      name: this.props.displayName,
       isModerator: this.props.isModerator,
     }
   }
@@ -50,7 +59,7 @@ export class UserMapper {
     return {
       id: this.props.id,
       img: this.props.img,
-      name: this.props.name,
+      name: this.props.displayName,
     }
   }
 }

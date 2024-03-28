@@ -1,6 +1,6 @@
 import { IRequestJoinTeam } from '#domain/usecases/team/request-join-team.js'
-import { created } from '#presentation/utils/http-reponse.js'
-import type { HttpResponse } from '#presentation/utils/http-reponse.js'
+import { created } from '#presentation/utils/http-response.js'
+import type { HttpResponse } from '#presentation/utils/http-response.js'
 import { Body, Controller, Post } from '@nestjs/common'
 import { IsUUID } from 'class-validator'
 

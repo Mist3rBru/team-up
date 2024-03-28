@@ -1,5 +1,5 @@
 export abstract class IEncrypter {
-  abstract encrypt(data: unknown): Promise<string>
+  abstract encrypt(data: string): Promise<string>
 }
 
 export abstract class IDecrypter {

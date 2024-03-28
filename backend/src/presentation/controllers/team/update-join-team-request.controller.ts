@@ -1,7 +1,7 @@
 import { IUpdateJoinTeamRequest } from '#domain/usecases/team/update-join-team-request.js'
 import { Token } from '#presentation/decorators/token.decorator.js'
-import { ok } from '#presentation/utils/http-reponse.js'
-import type { HttpResponse } from '#presentation/utils/http-reponse.js'
+import { ok } from '#presentation/utils/http-response.js'
+import type { HttpResponse } from '#presentation/utils/http-response.js'
 import { Body, Controller, Put } from '@nestjs/common'
 import { IsNotEmpty, IsUUID } from 'class-validator'
 

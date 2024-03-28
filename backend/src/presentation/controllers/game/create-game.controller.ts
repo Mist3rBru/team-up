@@ -1,6 +1,6 @@
 import { ICreateGame } from '#domain/usecases/game/create-game.js'
-import { created } from '#presentation/utils/http-reponse.js'
-import type { HttpResponse } from '#presentation/utils/http-reponse.js'
+import { created } from '#presentation/utils/http-response.js'
+import type { HttpResponse } from '#presentation/utils/http-response.js'
 import { Body, Controller, Post } from '@nestjs/common'
 import {
   ArrayMinSize,

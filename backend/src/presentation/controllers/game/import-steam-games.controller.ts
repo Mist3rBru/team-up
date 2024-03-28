@@ -1,6 +1,6 @@
 import { IImportGames } from '#domain/usecases/game/import-games.js'
-import { created } from '#presentation/utils/http-reponse.js'
-import type { HttpResponse } from '#presentation/utils/http-reponse.js'
+import { created } from '#presentation/utils/http-response.js'
+import type { HttpResponse } from '#presentation/utils/http-response.js'
 import { Controller, Inject, Param, ParseUUIDPipe, Post } from '@nestjs/common'
 
 @Controller()

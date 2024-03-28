@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-/* eslint-disable no-secrets/no-secrets */
-import { UserMapper } from '#domain/mappers/user-mapper.js'
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ICreateUser } from '#domain/usecases/user/create-user.js'
+import { login } from '#presentation/utils/http-response.js'
+import type { AuthResponse } from '#presentation/utils/http-response.js'
 import { Controller, Get, Inject, Req, UseGuards } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 
@@ -22,20 +21,13 @@ export class SteamLoginController {
 
   @Get('/auth/login/steam/redirect')
   @UseGuards(AuthGuard('steam'))
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this, @typescript-eslint/no-empty-function
-  async redirect(@Req() req: Express.Request): Promise<{
-    user: ReturnType<UserMapper['toPublic']>
-    token: string
-  }> {
+  async redirect(@Req() req: Express.Request): Promise<AuthResponse> {
     const { user, token } = await this.createUserRepository.create({
       ...req.user!,
       displayName: req.user?.name!,
       password: '',
     })
 
-    return {
-      user: new UserMapper(user).toPublic(),
-      token,
-    }
+    return login(user, token)
   }
 }
