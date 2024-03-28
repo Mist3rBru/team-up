@@ -12,7 +12,7 @@ export abstract class IFetchBuilder {
   }
 
   public url(...url: (string | number)[]): this {
-    this._url = url.join('/').replaceAll(/\/{2,}/g, '/')
+    this._url = url.join('/')
 
     return this
   }

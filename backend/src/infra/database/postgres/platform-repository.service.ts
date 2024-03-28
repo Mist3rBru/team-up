@@ -53,6 +53,30 @@ export class PlatformRepository implements IPlatformRepository {
     })
   }
 
+  async findByName(platformName: string): Promise<Platform | null> {
+    const data = await this.db.platform.findUnique({
+      where: {
+        name: platformName,
+      },
+      include: {
+        gamePlatforms: {
+          select: {
+            game: true,
+          },
+        },
+      },
+    })
+
+    if (!data) {
+      return null
+    }
+
+    return new Platform({
+      ...data,
+      games: data.gamePlatforms.map(({ game }) => game),
+    })
+  }
+
   async update(data: Platform): Promise<void> {
     await this.db.platform.update({
       data: new PlatformMapper(data).toPrisma(),

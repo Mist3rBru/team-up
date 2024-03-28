@@ -1,7 +1,8 @@
 import { Game } from '#domain/entities/game-entity.js'
 import { IImportGames } from '#domain/usecases/game/import-games.js'
 import { IFetchBuilder } from '#services/protocols/data/fetch-builder.js'
-import { ICreateGameRepository } from '#services/protocols/database/game-repository.js'
+import { IUpsertGameRepository } from '#services/protocols/database/game-repository.js'
+import { IUpsertUserGameRepository } from '#services/protocols/database/game-repository.js'
 import { IFindPlatformByNameRepository } from '#services/protocols/database/platform-repository.js'
 import { IFindUserByIdRepository } from '#services/protocols/database/user-repository.js'
 import {
@@ -16,7 +17,8 @@ export class ImportSteamGamesService implements IImportGames {
     private readonly findUserByIdRepository: IFindUserByIdRepository,
     private readonly findPlatformByNameRepository: IFindPlatformByNameRepository,
     private readonly fetchBuilder: IFetchBuilder,
-    private readonly createGameRepository: ICreateGameRepository
+    private readonly upsertGameRepository: IUpsertGameRepository,
+    private readonly upsertUserGameRepository: IUpsertUserGameRepository
   ) {}
 
   async import(data: IImportGames.Params): Promise<void> {
@@ -39,8 +41,10 @@ export class ImportSteamGamesService implements IImportGames {
     }
 
     try {
-      const remoteGames = await this.getRemoteGames()
-      const remoteOwnedGames = await this.getRemoteOwnedGames(user.steamId)
+      const [remoteGames, remoteOwnedGames] = await Promise.all([
+        this.getRemoteGames(),
+        this.getRemoteOwnedGames(user.steamId),
+      ])
 
       const ownedGames = remoteOwnedGames
         .map(ownedGame => {
@@ -59,9 +63,12 @@ export class ImportSteamGamesService implements IImportGames {
         .filter(Boolean)
 
       await Promise.all(
-        ownedGames.map(async game =>
-          this.createGameRepository.create(game, [platform.id], [user.id])
-        )
+        ownedGames.map(async ownedGame => {
+          const game = await this.upsertGameRepository.upsert(ownedGame, [
+            platform.id,
+          ])
+          await this.upsertUserGameRepository.upsertUser(game, user)
+        })
       )
     } catch (error) {
       console.error(error)

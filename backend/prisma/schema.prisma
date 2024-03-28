@@ -39,8 +39,8 @@ model UserPlatform {
   userId     String
   platformId String
 
-  user     User     @relation(fields: [userId], references: [id])
-  platform Platform @relation(fields: [platformId], references: [id])
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  platform Platform @relation(fields: [platformId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([userId, platformId])
 }
@@ -50,7 +50,7 @@ model UserGame {
   gameId String
 
   user User @relation(fields: [userId], references: [id])
-  game Game @relation(fields: [gameId], references: [id])
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([userId, gameId])
 }
@@ -61,7 +61,7 @@ model UserTeam {
   isModerator Boolean
 
   user User @relation(fields: [userId], references: [id])
-  team Team @relation(fields: [teamId], references: [id])
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([userId, teamId])
 }
@@ -93,8 +93,8 @@ model GamePlatform {
   gameId     String
   platformId String
 
-  game     Game     @relation(fields: [gameId], references: [id])
-  platform Platform @relation(fields: [platformId], references: [id])
+  game     Game     @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  platform Platform @relation(fields: [platformId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([gameId, platformId])
 }
@@ -109,7 +109,7 @@ model Team {
   createdAt   DateTime
   updatedAt   DateTime @updatedAt
 
-  game         Game                @relation(fields: [gameId], references: [id])
+  game         Game                @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   members      UserTeam[]
   teamMessages UserToTeamMessage[]
   requests     JoinTeamRequest[]
@@ -124,7 +124,7 @@ model JoinTeamRequest {
   updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id])
-  team Team @relation(fields: [teamId], references: [id])
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Message {
@@ -143,9 +143,9 @@ model UserToUserMessage {
   receiverId String
   messageId  String
 
-  sender   User    @relation(fields: [senderId], references: [id], name: "sender")
-  receiver User    @relation(fields: [receiverId], references: [id], name: "receiver")
-  message  Message @relation(fields: [messageId], references: [id])
+  sender   User    @relation(fields: [senderId], references: [id], name: "sender", onDelete: Cascade, onUpdate: Cascade)
+  receiver User    @relation(fields: [receiverId], references: [id], name: "receiver", onDelete: Cascade, onUpdate: Cascade)
+  message  Message @relation(fields: [messageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model UserToTeamMessage {
@@ -154,7 +154,7 @@ model UserToTeamMessage {
   teamId    String
   messageId String
 
-  sender  User    @relation(fields: [senderId], references: [id])
-  team    Team    @relation(fields: [teamId], references: [id])
-  message Message @relation(fields: [messageId], references: [id])
+  sender  User    @relation(fields: [senderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  team    Team    @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
