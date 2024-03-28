@@ -4,6 +4,7 @@ import { IFindUserByToken } from '#domain/usecases/user/find-user-by-token.js'
 import { IListUserGames } from '#domain/usecases/user/list-user-games.js'
 import { IListUserPlatforms } from '#domain/usecases/user/list-user-platforms.js'
 import { IListUserTeams } from '#domain/usecases/user/list-user-teams.js'
+import { IUpdateUserPassword } from '#domain/usecases/user/update-user-password.js'
 import { IUpdateUser } from '#domain/usecases/user/update-user.js'
 import { CreateUserController } from '#presentation/controllers/user/create-user.controller.js'
 import { FindUserByIdController } from '#presentation/controllers/user/find-user-by-id.controller.js'
@@ -11,10 +12,12 @@ import { FindUserByTokenController } from '#presentation/controllers/user/find-u
 import { ListUserGamesController } from '#presentation/controllers/user/list-user-games.controller.js'
 import { ListUserPlatformsController } from '#presentation/controllers/user/list-user-platforms.controller.js'
 import { ListUserTeamsController } from '#presentation/controllers/user/list-user-teams.controller.js'
+import { UpdateUserPasswordController } from '#presentation/controllers/user/update-user-password.controller.js'
 import { UpdateUserController } from '#presentation/controllers/user/update-user.controller.js'
 import { CreateUserService } from '#services/usecases/user/create-user.service.js'
 import { FindUserByIdService } from '#services/usecases/user/find-user-by-id.service.js'
 import { FindUserByTokenService } from '#services/usecases/user/find-user-by-token.service.js'
+import { UpdateUserPasswordService } from '#services/usecases/user/update-user-password.service.js'
 import { UpdateUserService } from '#services/usecases/user/update-user.service.js'
 import { PrismaService } from '#infra/database/postgres/prisma.service.js'
 import { UserRepository } from '#infra/database/postgres/user-repository.service.js'
@@ -27,6 +30,7 @@ import { Module } from '@nestjs/common'
   controllers: [
     CreateUserController,
     UpdateUserController,
+    UpdateUserPasswordController,
     FindUserByIdController,
     FindUserByTokenController,
     ListUserGamesController,
@@ -37,6 +41,7 @@ import { Module } from '@nestjs/common'
     PrismaService,
     { provide: ICreateUser, useClass: CreateUserService },
     { provide: IUpdateUser, useClass: UpdateUserService },
+    { provide: IUpdateUserPassword, useClass: UpdateUserPasswordService },
     { provide: IFindUserById, useClass: FindUserByIdService },
     { provide: IFindUserByToken, useClass: FindUserByTokenService },
     { provide: IListUserGames, useClass: UserRepository },

@@ -1,8 +1,9 @@
+import { User } from '#domain/entities/user-entity.js'
 import { ICreateUser } from '#domain/usecases/user/create-user.js'
 import { login } from '#presentation/utils/http-response.js'
 import type { AuthResponse } from '#presentation/utils/http-response.js'
 import { Body, Controller, Post } from '@nestjs/common'
-import { IsEmail, IsNotEmpty } from 'class-validator'
+import { IsEmail, IsNotEmpty, MinLength } from 'class-validator'
 
 class CreateUserBodyDto {
   @IsNotEmpty()
@@ -14,10 +15,10 @@ class CreateUserBodyDto {
   @IsEmail()
   email: string
 
-  @IsNotEmpty()
+  @MinLength(User.MIN_PASSWORD_LENGTH)
   password: string
 
-  @IsNotEmpty()
+  @MinLength(User.MIN_PASSWORD_LENGTH)
   confirmPassword: string
 }
 

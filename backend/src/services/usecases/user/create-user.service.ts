@@ -38,9 +38,10 @@ export class CreateUserService implements ICreateUser {
       throw new BadRequestException('nome de identificação já cadastrado')
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-    if (!data.password || data.password.length < 8) {
-      throw new BadRequestException('a senha deve ter no mínimo 8 carácteres')
+    if (!data.password || data.password.length < User.MIN_PASSWORD_LENGTH) {
+      throw new BadRequestException(
+        `a senha deve ter no mínimo ${User.MIN_PASSWORD_LENGTH} carácteres`
+      )
     }
 
     if (data.password !== data.confirmPassword) {

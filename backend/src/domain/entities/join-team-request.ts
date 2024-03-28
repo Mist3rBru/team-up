@@ -6,8 +6,7 @@ import { BadRequestException } from '@nestjs/common'
 export class JoinTeamRequest {
   private readonly props: JoinTeamRequest.Props
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
-  private verifyStatus(status: string): JoinTeamRequest.Status {
+  static verifyStatus(status: string): JoinTeamRequest.Status {
     const validStatusList: JoinTeamRequest.Status[] = [
       'pending',
       'denied',
@@ -26,7 +25,9 @@ export class JoinTeamRequest {
     this.props = {
       ...params,
       id: new UUID(params.id),
-      status: params.status ? this.verifyStatus(params.status) : 'pending',
+      status: params.status
+        ? JoinTeamRequest.verifyStatus(params.status)
+        : 'pending',
       createdAt: params.createdAt ?? new Date(),
       updatedAt: params.updatedAt ?? new Date(),
 
@@ -52,7 +53,7 @@ export class JoinTeamRequest {
   }
 
   set status(status: string) {
-    this.props.status = this.verifyStatus(status)
+    this.props.status = JoinTeamRequest.verifyStatus(status)
   }
 
   get createdAt(): Date {

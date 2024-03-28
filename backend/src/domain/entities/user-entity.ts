@@ -3,6 +3,8 @@ import { UUID } from '#domain/entities/uuid.js'
 export class User {
   private readonly props: User.Props
 
+  static readonly MIN_PASSWORD_LENGTH = 8
+
   static formatName(name: string): string {
     return name.normalize('NFD').trim().replaceAll(/\s+/g, '.').toLowerCase()
   }
