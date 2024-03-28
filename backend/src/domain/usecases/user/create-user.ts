@@ -5,7 +5,9 @@ export abstract class ICreateUser {
 }
 
 export namespace ICreateUser {
-  export type Params = User.Params
+  export type Params = User.Params & {
+    confirmPassword?: string
+  }
 
   export interface Result {
     user: User

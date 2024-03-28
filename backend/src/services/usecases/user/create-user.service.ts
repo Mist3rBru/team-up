@@ -26,6 +26,15 @@ export class CreateUserService implements ICreateUser {
       throw new BadRequestException('email já cadastrado')
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    if (!data.password || data.password.length < 8) {
+      throw new BadRequestException('a senha deve ter no mínimo 8 carácteres')
+    }
+
+    if (data.password !== data.confirmPassword) {
+      throw new BadRequestException('ambas as senhas devem ser iguais')
+    }
+
     const user = new User(data)
     user.password = await this.hashGenerator.generate(user.password)
 

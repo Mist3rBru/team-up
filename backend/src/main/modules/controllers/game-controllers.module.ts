@@ -10,12 +10,16 @@ import { AxiosAdapter } from '#infra/adapters/axios-adapter.js'
 import { GameRepository } from '#infra/database/postgres/game-repository.service.js'
 import { PrismaService } from '#infra/database/postgres/prisma.service.js'
 import { GameRepositoryModule } from '#main/modules/repositories/game-repository.module.js'
+import { PlatformRepositoryModule } from '#main/modules/repositories/platform-repository.module.js'
 import { UserRepositoryModule } from '#main/modules/repositories/user-repository.module.js'
 import { Module } from '@nestjs/common'
-import { PlatformRepositoryModule } from '#main/modules/repositories/platform-repository.module.js'
 
 @Module({
-  imports: [GameRepositoryModule, UserRepositoryModule, PlatformRepositoryModule],
+  imports: [
+    GameRepositoryModule,
+    UserRepositoryModule,
+    PlatformRepositoryModule,
+  ],
   controllers: [
     CreateGameController,
     ListGameTeamsController,

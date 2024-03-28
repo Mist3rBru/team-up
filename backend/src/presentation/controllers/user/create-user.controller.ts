@@ -7,13 +7,16 @@ class CreateUserBodyDto {
   @IsNotEmpty()
   name: string
 
-  @IsNotEmpty()
   @IsEmail()
   email: string
 
   @IsString()
   @IsNotEmpty()
   password: string
+
+  @IsString()
+  @IsNotEmpty()
+  confirmPassword: string
 }
 
 @Controller()
