@@ -3,6 +3,7 @@ import type { ICreateUser } from '#domain/usecases/user/create-user.js'
 import { IEncrypter } from '#services/protocols/data/encrypter.js'
 import { IHashGenerator } from '#services/protocols/data/hasher.js'
 import { IFindUserByNameRepository } from '#services/protocols/database/user-repository.js'
+import { IFindUserByEmailRepository } from '#services/protocols/database/user-repository.js'
 import { ICreateUserRepository } from '#services/protocols/database/user-repository.js'
 import { BadRequestException, Injectable } from '@nestjs/common'
 
@@ -10,17 +11,30 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 export class CreateUserService implements ICreateUser {
   constructor(
     private readonly findUserByNameRepository: IFindUserByNameRepository,
+    private readonly findUserByEmailRepository: IFindUserByEmailRepository,
     private readonly createUserRepository: ICreateUserRepository,
     private readonly hashGenerator: IHashGenerator,
     private readonly encrypter: IEncrypter
   ) {}
 
   async create(data: ICreateUser.Params): Promise<ICreateUser.Result> {
-    const exists = await this.findUserByNameRepository.findByName(
+    if (!data.email) {
+      throw new BadRequestException('email não encontrado')
+    }
+
+    const emailExists = await this.findUserByEmailRepository.findByEmail(
+      data.email
+    )
+
+    if (emailExists) {
+      throw new BadRequestException('email já cadastrado')
+    }
+
+    const nameExists = await this.findUserByNameRepository.findByName(
       User.formatName(data.name)
     )
 
-    if (exists) {
+    if (nameExists) {
       throw new BadRequestException('nome de identificação já cadastrado')
     }
 

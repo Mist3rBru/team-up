@@ -2,7 +2,7 @@ import { ICreateUser } from '#domain/usecases/user/create-user.js'
 import { login } from '#presentation/utils/http-response.js'
 import type { AuthResponse } from '#presentation/utils/http-response.js'
 import { Body, Controller, Post } from '@nestjs/common'
-import { IsNotEmpty, IsString } from 'class-validator'
+import { IsEmail, IsNotEmpty } from 'class-validator'
 
 class CreateUserBodyDto {
   @IsNotEmpty()
@@ -11,11 +11,12 @@ class CreateUserBodyDto {
   @IsNotEmpty()
   displayName: string
 
-  @IsString()
+  @IsEmail()
+  email: string
+
   @IsNotEmpty()
   password: string
 
-  @IsString()
   @IsNotEmpty()
   confirmPassword: string
 }
