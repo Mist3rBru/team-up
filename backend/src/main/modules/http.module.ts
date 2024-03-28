@@ -5,11 +5,18 @@ import { TeamControllersModule } from '#main/modules/controllers/team-controller
 import { UserControllersModule } from '#main/modules/controllers/user-controllers.module.js'
 import { Module } from '@nestjs/common'
 import { MulterModule } from '@nestjs/platform-express'
+import { ServeStaticModule } from '@nestjs/serve-static'
 import { resolve } from 'node:path'
 
 @Module({
   imports: [
-    MulterModule.register({ dest: resolve('public/uploads') }),
+    MulterModule.register({
+      dest: resolve('public/uploads'),
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: resolve('public'),
+      serveRoot: '/public',
+    }),
     AuthControllersModule,
     UserControllersModule,
     PlatformControllersModule,

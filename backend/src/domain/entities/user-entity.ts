@@ -13,7 +13,7 @@ export class User {
       id: new UUID(params.id),
       steamId: params.steamId ?? null,
       email: params.email ?? null,
-      img: params.img ?? '',
+      img: params.img ?? `${process.env.APP_HOST}/public/uploads/img/default-user-avatar.jpg`,
       createdAt: params.createdAt ?? new Date(),
       updatedAt: params.updatedAt ?? new Date(),
     }

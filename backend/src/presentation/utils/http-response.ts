@@ -4,7 +4,7 @@ import { UserMapper } from '#domain/mappers/user-mapper.js'
 export interface HttpResponse {
   statusCode: number
   error?: string | null
-  message: string
+  message?: string
 }
 
 export const ok = (message: string): HttpResponse => ({
@@ -17,9 +17,7 @@ export const created = (message: string): HttpResponse => ({
   message,
 })
 
-export interface AuthResponse {
-  statusCode: number
-  error?: string | null
+export interface AuthResponse extends HttpResponse {
   user: ReturnType<UserMapper['toLogin']>
   token: string
 }
