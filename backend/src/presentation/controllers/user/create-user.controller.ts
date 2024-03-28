@@ -1,14 +1,14 @@
 import { UserMapper } from '#domain/mappers/user-mapper.js'
 import { ICreateUser } from '#domain/usecases/user/create-user.js'
 import { Body, Controller, Post } from '@nestjs/common'
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
+import { IsNotEmpty, IsString } from 'class-validator'
 
 class CreateUserBodyDto {
   @IsNotEmpty()
   name: string
 
-  @IsEmail()
-  email: string
+  @IsNotEmpty()
+  displayName: string
 
   @IsString()
   @IsNotEmpty()

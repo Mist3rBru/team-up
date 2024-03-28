@@ -2,28 +2,26 @@ import { User } from '#domain/entities/user-entity.js'
 import type { ICreateUser } from '#domain/usecases/user/create-user.js'
 import { IEncrypter } from '#services/protocols/data/encrypter.js'
 import { IHashGenerator } from '#services/protocols/data/hasher.js'
-import { IFindUserByEmailRepository } from '#services/protocols/database/user-repository.js'
+import { IFindUserByNameRepository } from '#services/protocols/database/user-repository.js'
 import { ICreateUserRepository } from '#services/protocols/database/user-repository.js'
 import { BadRequestException, Injectable } from '@nestjs/common'
 
 @Injectable()
 export class CreateUserService implements ICreateUser {
   constructor(
-    private readonly findUserByEmailRepository: IFindUserByEmailRepository,
+    private readonly findUserByNameRepository: IFindUserByNameRepository,
     private readonly createUserRepository: ICreateUserRepository,
     private readonly hashGenerator: IHashGenerator,
     private readonly encrypter: IEncrypter
   ) {}
 
   async create(data: ICreateUser.Params): Promise<ICreateUser.Result> {
-    if (!data.email) {
-      throw new BadRequestException('email não encontrado')
-    }
-
-    const exists = await this.findUserByEmailRepository.findByEmail(data.email)
+    const exists = await this.findUserByNameRepository.findByName(
+      User.formatName(data.name)
+    )
 
     if (exists) {
-      throw new BadRequestException('email já cadastrado')
+      throw new BadRequestException('nome de identificação já cadastrado')
     }
 
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
@@ -40,7 +38,7 @@ export class CreateUserService implements ICreateUser {
 
     await this.createUserRepository.create(user)
 
-    const token = await this.encrypter.encrypt({ id: user.id })
+    const token = await this.encrypter.encrypt(user.id)
 
     return {
       user,

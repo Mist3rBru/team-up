@@ -1,8 +1,9 @@
 declare global {
   namespace Express {
     interface User {
-      steamId?: string
-      name?: string
+      steamId: string
+      name: string
+      img: string
     }
   }
 }

@@ -7,6 +7,7 @@ import type {
   ICreateUserRepository,
   IFindUserByEmailRepository,
   IFindUserByIdRepository,
+  IFindUserByNameRepository,
   IListUserGamesRepository,
   IListUserPlatformsRepository,
   IListUserTeamsRepository,
@@ -18,6 +19,7 @@ interface IUserRepository
   extends ICreateUserRepository,
     IFindUserByEmailRepository,
     IFindUserByIdRepository,
+    IFindUserByNameRepository,
     IListUserGamesRepository,
     IListUserPlatformsRepository,
     IListUserTeamsRepository {}
@@ -50,6 +52,20 @@ export class UserRepository implements IUserRepository {
     const data = await this.db.user.findUnique({
       where: {
         email,
+      },
+    })
+
+    if (!data) {
+      return null
+    }
+
+    return new User(data)
+  }
+
+  async findByName(name: string): Promise<User | null> {
+    const data = await this.db.user.findUnique({
+      where: {
+        name,
       },
     })
 

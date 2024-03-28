@@ -10,6 +10,7 @@ export class UserMapper {
       steamId: this.props.steamId,
       img: this.props.img,
       name: this.props.name,
+      displayName: this.props.displayName,
       email: this.props.email,
       password: this.props.password,
       createdAt: this.props.createdAt,

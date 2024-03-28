@@ -29,6 +29,7 @@ async function bootstrap(): Promise<void> {
         done(null, {
           steamId: profile.id,
           name: profile.displayName,
+          img: profile._json.avatarfull,
         })
       }
     )

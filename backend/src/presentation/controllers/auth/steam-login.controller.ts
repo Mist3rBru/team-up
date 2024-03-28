@@ -28,8 +28,8 @@ export class SteamLoginController {
     token: string
   }> {
     const { user, token } = await this.createUserRepository.create({
-      name: req.user?.name!,
-      steamId: req.user?.steamId!,
+      ...req.user!,
+      displayName: req.user?.name!,
       password: '',
     })
 

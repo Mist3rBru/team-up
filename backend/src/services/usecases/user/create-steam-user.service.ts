@@ -1,6 +1,7 @@
 import { User } from '#domain/entities/user-entity.js'
 import { ICreateUser } from '#domain/usecases/user/create-user.js'
 import { IEncrypter } from '#services/protocols/data/encrypter.js'
+import { IHashGenerator } from '#services/protocols/data/hasher.js'
 import {
   ICreateUserRepository,
   IFindUserByIdRepository,
@@ -13,6 +14,7 @@ export class CreateSteamUserService implements ICreateUser {
   constructor(
     private readonly findUserByIdRepository: IFindUserByIdRepository,
     private readonly encrypter: IEncrypter,
+    private readonly hashGenerator: IHashGenerator,
     private readonly createUserRepository: ICreateUserRepository
   ) {}
 
@@ -22,15 +24,10 @@ export class CreateSteamUserService implements ICreateUser {
     }
 
     const exists = await this.findUserByIdRepository.findById(data.steamId)
-    const user =
-      exists ??
-      new User({
-        steamId: data.steamId,
-        name: data.name,
-        password: randomUUID().replaceAll('-', ''),
-      })
+    const user = exists ?? new User(data)
 
     if (!exists) {
+      user.password = await this.hashGenerator.generate(randomUUID())
       await this.createUserRepository.create(user)
     }
 

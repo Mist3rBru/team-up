@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id        String   @id
-  steamId   String?  @unique
-  img       String
-  name      String
-  email     String?  @unique
-  password  String
-  createdAt DateTime
-  updatedAt DateTime @updatedAt
+  id          String   @id
+  steamId     String?  @unique
+  img         String
+  name        String   @unique
+  displayName String
+  email       String?  @unique
+  password    String
+  createdAt   DateTime
+  updatedAt   DateTime @updatedAt
 
   userPlatforms    UserPlatform[]
   userGames        UserGame[]

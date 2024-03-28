@@ -3,6 +3,10 @@ import { UUID } from '#domain/entities/uuid.js'
 export class User {
   private readonly props: User.Props
 
+  static formatName(name: string): string {
+    return name.normalize('NFD').trim().replaceAll(/\s+/g, '.').toLowerCase()
+  }
+
   constructor(params: User.Params) {
     this.props = {
       ...params,
@@ -28,7 +32,11 @@ export class User {
   }
 
   get name(): string {
-    return this.props.name
+    return User.formatName(this.props.name)
+  }
+
+  get displayName(): string {
+    return this.props.displayName
   }
 
   get email(): string | null {
@@ -62,6 +70,7 @@ export namespace User {
     steamId: string | null
     img: string
     name: string
+    displayName: string
     email: string | null
     password: string
     isModerator?: boolean
@@ -74,6 +83,7 @@ export namespace User {
     steamId?: string | null
     img?: string
     name: string
+    displayName: string
     email?: string | null
     password: string
     isModerator?: boolean

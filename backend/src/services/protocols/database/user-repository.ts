@@ -11,6 +11,10 @@ export abstract class IFindUserByIdRepository {
   abstract findById(userId: string): Promise<User | null>
 }
 
+export abstract class IFindUserByNameRepository {
+  abstract findByName(name: string): Promise<User | null>
+}
+
 export abstract class IFindUserByEmailRepository {
   abstract findByEmail(email: string): Promise<User | null>
 }
