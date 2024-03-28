@@ -1,4 +1,6 @@
 import { ICreateTeam } from '#domain/usecases/team/create-team.js'
+import { created } from '#presentation/utils/http-reponse.js'
+import type { HttpResponse } from '#presentation/utils/http-reponse.js'
 import { Body, Controller, Post } from '@nestjs/common'
 import {
   ArrayMinSize,
@@ -37,11 +39,9 @@ export class CreateTeamController {
   constructor(private readonly createTeamService: ICreateTeam) {}
 
   @Post('/team')
-  async handle(@Body() body: CreateTeamBodyDto): Promise<{ message: string }> {
+  async handle(@Body() body: CreateTeamBodyDto): Promise<HttpResponse> {
     await this.createTeamService.create(body)
 
-    return {
-      message: 'time criado com sucesso.',
-    }
+    return created('time criado com sucesso.')
   }
 }

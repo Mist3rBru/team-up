@@ -1,7 +1,7 @@
 import { Team } from '#domain/entities/team-entity.js'
 import { User } from '#domain/entities/user-entity.js'
 import { UUID } from '#domain/entities/uuid.js'
-import { HttpException, HttpStatus } from '@nestjs/common'
+import { BadRequestException } from '@nestjs/common'
 
 export class JoinTeamRequest {
   private readonly props: JoinTeamRequest.Props
@@ -16,10 +16,7 @@ export class JoinTeamRequest {
     ]
 
     if (!validStatusList.includes(status as JoinTeamRequest.Status)) {
-      throw new HttpException(
-        'invalid join team request status',
-        HttpStatus.BAD_REQUEST
-      )
+      throw new BadRequestException('invalid join team request status')
     }
 
     return status as JoinTeamRequest.Status

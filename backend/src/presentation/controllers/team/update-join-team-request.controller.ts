@@ -1,5 +1,7 @@
 import { IUpdateJoinTeamRequest } from '#domain/usecases/team/update-join-team-request.js'
 import { Token } from '#presentation/decorators/token.decorator.js'
+import { ok } from '#presentation/utils/http-reponse.js'
+import type { HttpResponse } from '#presentation/utils/http-reponse.js'
 import { Body, Controller, Put } from '@nestjs/common'
 import { IsNotEmpty, IsUUID } from 'class-validator'
 
@@ -21,15 +23,13 @@ export class UpdateJoinTeamRequestController {
   async handle(
     @Body() body: UpdateJoinTeamRequestDto,
     @Token() token: string
-  ): Promise<{ message: string }> {
+  ): Promise<HttpResponse> {
     await this.updateJoinTeamRequestService.update({
       requestId: body.requestId,
       token,
       status: body.status,
     })
 
-    return {
-      message: 'Pedido atualizado',
-    }
+    return ok('Pedido atualizado')
   }
 }

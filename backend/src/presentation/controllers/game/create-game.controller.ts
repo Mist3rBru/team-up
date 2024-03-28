@@ -1,4 +1,6 @@
 import { ICreateGame } from '#domain/usecases/game/create-game.js'
+import { created } from '#presentation/utils/http-reponse.js'
+import type { HttpResponse } from '#presentation/utils/http-reponse.js'
 import { Body, Controller, Post } from '@nestjs/common'
 import {
   ArrayMinSize,
@@ -26,11 +28,9 @@ export class CreateGameController {
   constructor(private readonly createGameService: ICreateGame) {}
 
   @Post('/game')
-  async handle(@Body() body: CreateGameBodyDto): Promise<{ message: string }> {
+  async handle(@Body() body: CreateGameBodyDto): Promise<HttpResponse> {
     await this.createGameService.create(body)
 
-    return {
-      message: 'Jogo cadastrado com sucesso',
-    }
+    return created('Jogo cadastrado com sucesso')
   }
 }
