@@ -11,12 +11,14 @@ import type {
   IListUserGamesRepository,
   IListUserPlatformsRepository,
   IListUserTeamsRepository,
+  IUpdateUserRepository,
 } from '#services/protocols/database/user-repository.js'
 import { PrismaService } from '#infra/database/postgres/prisma.service.js'
 import { Injectable } from '@nestjs/common'
 
 interface IUserRepository
   extends ICreateUserRepository,
+    IUpdateUserRepository,
     IFindUserByEmailRepository,
     IFindUserByIdRepository,
     IFindUserByNameRepository,

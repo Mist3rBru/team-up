@@ -37,12 +37,27 @@ export class User {
     return User.formatName(this.props.name)
   }
 
+  set name(name: string) {
+    this.props.name = name
+    this.update()
+  }
+
   get displayName(): string {
     return this.props.displayName
   }
 
+  set displayName(displayName: string) {
+    this.props.displayName = displayName
+    this.update()
+  }
+
   get email(): string | null {
     return this.props.email
+  }
+
+  set email(email: string) {
+    this.props.email = email
+    this.update()
   }
 
   get password(): string {
@@ -51,6 +66,7 @@ export class User {
 
   set password(password: string) {
     this.props.password = password
+    this.update()
   }
 
   get isModerator(): boolean | undefined {
@@ -63,6 +79,10 @@ export class User {
 
   get updatedAt(): Date {
     return this.props.updatedAt
+  }
+
+  private update(): void {
+    this.props.updatedAt = new Date()
   }
 }
 

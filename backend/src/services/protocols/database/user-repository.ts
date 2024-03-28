@@ -7,6 +7,10 @@ export abstract class ICreateUserRepository {
   abstract create(data: User): Promise<void>
 }
 
+export abstract class IUpdateUserRepository {
+  abstract update(data: User): Promise<void>
+}
+
 export abstract class IFindUserByIdRepository {
   abstract findById(userId: string): Promise<User | null>
 }
