@@ -1,18 +1,26 @@
 export abstract class IFetchBuilder {
-  protected _method: IRequestBuilder.Method = 'get'
-  protected _url: string = ''
-  protected _params: string = ''
-  protected _headers: Record<string, unknown> = {}
-  protected _body: Record<string, unknown> = {}
+  protected props: {
+    method: IFetchBuilder.Method
+    url: string
+    params: string
+    headers: Record<string, unknown>
+    body: Record<string, unknown>
+  } = {
+    url: '',
+    method: 'get',
+    params: '',
+    body: {},
+    headers: {},
+  }
 
-  public method(method: IRequestBuilder.Method): this {
-    this._method = method
+  public method(method: IFetchBuilder.Method): this {
+    this.props.method = method
 
     return this
   }
 
   public url(...url: (string | number)[]): this {
-    this._url = url.join('/')
+    this.props.url = url.join('/')
 
     return this
   }
@@ -20,7 +28,7 @@ export abstract class IFetchBuilder {
   public params(
     params: Record<string, string | number | (string | number)[]>
   ): this {
-    this._params = Object.entries(params)
+    this.props.params = Object.entries(params)
       .map(
         ([param, value], i) =>
           `${i === 0 ? '?' : '&'}${param}=${Array.isArray(value) ? value.join(',') : value}`
@@ -31,24 +39,20 @@ export abstract class IFetchBuilder {
   }
 
   public headers(headers: Record<string, unknown>): this {
-    this._headers = headers
+    this.props.headers = headers
 
     return this
   }
 
   public body(body: Record<string, unknown>): this {
-    this._body = body
+    this.props.body = body
 
     return this
-  }
-
-  public buildUrl(): string {
-    return this._url + this._params
   }
 
   abstract fetch<TResponse>(): Promise<TResponse>
 }
 
-export namespace IRequestBuilder {
+export namespace IFetchBuilder {
   export type Method = 'get'
 }

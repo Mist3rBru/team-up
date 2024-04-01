@@ -4,9 +4,11 @@ import type { RawAxiosRequestHeaders } from 'axios'
 
 export class AxiosAdapter extends IFetchBuilder {
   async fetch<TResponse>(): Promise<TResponse> {
-    const { data } = await axios<TResponse>(this.buildUrl(), {
-      method: this._method,
-      headers: this._headers as RawAxiosRequestHeaders,
+    const { body, headers, method, params, url } = this.props
+    const { data } = await axios<TResponse>(url + params, {
+      method,
+      headers: headers as RawAxiosRequestHeaders,
+      data: body,
     })
 
     return data
