@@ -1,6 +1,6 @@
 import {
   ICreateGameRepository,
-  IListGameTeamsRepository,
+  IFindGameByIdRepository,
   IUpsertGameRepository,
   IUpsertUserGameRepository,
 } from '#services/protocols/database/game-repository.js'
@@ -16,6 +16,10 @@ import { Module } from '@nestjs/common'
       useClass: GameRepository,
     },
     {
+      provide: IFindGameByIdRepository,
+      useClass: GameRepository,
+    },
+    {
       provide: IUpsertGameRepository,
       useClass: GameRepository,
     },
@@ -23,16 +27,12 @@ import { Module } from '@nestjs/common'
       provide: IUpsertUserGameRepository,
       useClass: GameRepository,
     },
-    {
-      provide: IListGameTeamsRepository,
-      useClass: GameRepository,
-    },
   ],
   exports: [
     ICreateGameRepository,
+    IFindGameByIdRepository,
     IUpsertGameRepository,
     IUpsertUserGameRepository,
-    IListGameTeamsRepository,
   ],
 })
 export class GameRepositoryModule {}

@@ -1,4 +1,5 @@
 import { Platform } from '#domain/entities/platform-entity.js'
+import { Team } from '#domain/entities/team-entity.js'
 import { UUID } from '#domain/entities/uuid.js'
 
 export class Game {
@@ -12,6 +13,7 @@ export class Game {
       updatedAt: params.updatedAt ?? new Date(),
 
       platforms: params.platforms?.map(platform => new Platform(platform)),
+      teams: params.teams?.map(team => new Team(team)),
     }
   }
 
@@ -38,6 +40,10 @@ export class Game {
   get platforms(): Platform[] | undefined {
     return this.props.platforms
   }
+
+  get teams(): Team[] | undefined {
+    return this.props.teams
+  }
 }
 
 export namespace Game {
@@ -49,6 +55,7 @@ export namespace Game {
     updatedAt: Date
 
     platforms?: Platform[]
+    teams?: Team[]
   }
 
   export interface Params {
@@ -59,5 +66,6 @@ export namespace Game {
     updatedAt?: Date
 
     platforms?: Platform.Params[]
+    teams?: Team.Params[]
   }
 }

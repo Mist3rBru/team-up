@@ -1,10 +1,9 @@
 import { Game } from '#domain/entities/game-entity.js'
-import { Team } from '#domain/entities/team-entity.js'
 import type { User } from '#domain/entities/user-entity.js'
 import { GameMapper } from '#domain/mappers/game-mapper.js'
 import type {
   ICreateGameRepository,
-  IListGameTeamsRepository,
+  IFindGameByIdRepository,
   IUpsertGameRepository,
   IUpsertUserGameRepository,
 } from '#services/protocols/database/game-repository.js'
@@ -15,7 +14,7 @@ interface IGameRepository
   extends ICreateGameRepository,
     IUpsertGameRepository,
     IUpsertUserGameRepository,
-    IListGameTeamsRepository {}
+    IFindGameByIdRepository {}
 
 @Injectable()
 export class GameRepository implements IGameRepository {
@@ -70,37 +69,27 @@ export class GameRepository implements IGameRepository {
     return data.map(d => new Game(d))
   }
 
-  async listTeams(gameId: string): Promise<Team[]> {
-    const data = await this.db.team.findMany({
-      where: {
-        gameId,
-      },
-      include: {
-        members: {
-          select: {
-            user: true,
-            isModerator: true,
-          },
-        },
-      },
-    })
-
-    return data.map(
-      d =>
-        new Team({
-          ...d,
-          members: d.members.map(({ user, isModerator }) => ({
-            ...user,
-            isModerator,
-          })),
-        })
-    )
-  }
-
   async findById(id: string): Promise<Game | null> {
     const data = await this.db.game.findUnique({
       where: {
         id,
+      },
+      include: {
+        teams: {
+          include: {
+            members: {
+              select: {
+                user: true,
+                isModerator: true,
+              },
+            },
+          },
+        },
+        gamePlatforms: {
+          select: {
+            platform: true,
+          },
+        },
       },
     })
 
@@ -108,7 +97,17 @@ export class GameRepository implements IGameRepository {
       return null
     }
 
-    return new Game(data)
+    return new Game({
+      ...data,
+      teams: data.teams.map(team => ({
+        ...team,
+        members: team.members.map(({ user, isModerator }) => ({
+          ...user,
+          isModerator,
+        })),
+      })),
+      platforms: data.gamePlatforms.map(({ platform }) => platform),
+    })
   }
 
   async delete(id: string): Promise<void> {

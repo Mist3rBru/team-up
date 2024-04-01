@@ -1,5 +1,6 @@
 import type { Game } from '#domain/entities/game-entity.js'
 import { PlatformMapper } from '#domain/mappers/platform-mapper.js'
+import { TeamMapper } from '#domain/mappers/team-mapper.js'
 import type { Game as PrismaPlatform } from '@prisma/client'
 
 export class GameMapper {
@@ -15,7 +16,15 @@ export class GameMapper {
     }
   }
 
-  public toHttp() {
+  public toHttp(): {
+    id: string
+    img: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    platforms: ReturnType<PlatformMapper['toHttp']>[] | undefined
+    teams: ReturnType<TeamMapper['toHttp']>[] | undefined
+  } {
     return {
       id: this.props.id,
       img: this.props.img,
@@ -24,8 +33,10 @@ export class GameMapper {
       updatedAt: this.props.updatedAt,
 
       platforms: this.props.platforms?.map(platform =>
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         new PlatformMapper(platform).toHttp()
       ),
+      teams: this.props.teams?.map(team => new TeamMapper(team).toHttp()),
     }
   }
 }
