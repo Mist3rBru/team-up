@@ -11,7 +11,7 @@ import { AuthGuard } from '@nestjs/passport'
 export class SteamLoginController {
   constructor(
     @Inject('ICreateSteamUser')
-    private readonly createUserRepository: ICreateUser
+    private readonly createUserService: ICreateUser
   ) {}
 
   @Get('/auth/login/steam')
@@ -22,7 +22,7 @@ export class SteamLoginController {
   @Get('/auth/login/steam/redirect')
   @UseGuards(AuthGuard('steam'))
   async redirect(@Req() req: Express.Request): Promise<AuthResponse> {
-    const { user, token } = await this.createUserRepository.create({
+    const { user, token } = await this.createUserService.create({
       ...req.user!,
       displayName: req.user?.name!,
       password: '',
