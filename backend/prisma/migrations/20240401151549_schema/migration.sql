@@ -4,21 +4,13 @@ CREATE TABLE "User" (
     "steamId" TEXT,
     "img" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "displayName" TEXT NOT NULL,
     "email" TEXT,
     "password" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "UserAccess" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "access" TEXT NOT NULL,
-
-    CONSTRAINT "UserAccess_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -84,6 +76,7 @@ CREATE TABLE "Team" (
     "description" TEXT NOT NULL,
     "isPublic" BOOLEAN NOT NULL,
     "isOpen" BOOLEAN NOT NULL,
+    "tags" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -136,6 +129,9 @@ CREATE TABLE "UserToTeamMessage" (
 CREATE UNIQUE INDEX "User_steamId_key" ON "User"("steamId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_name_key" ON "User"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
@@ -145,10 +141,7 @@ CREATE UNIQUE INDEX "Platform_name_key" ON "Platform"("name");
 CREATE UNIQUE INDEX "Game_name_key" ON "Game"("name");
 
 -- AddForeignKey
-ALTER TABLE "UserAccess" ADD CONSTRAINT "UserAccess_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "UserPlatform" ADD CONSTRAINT "UserPlatform_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserPlatform" ADD CONSTRAINT "UserPlatform_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserPlatform" ADD CONSTRAINT "UserPlatform_platformId_fkey" FOREIGN KEY ("platformId") REFERENCES "Platform"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -181,19 +174,19 @@ ALTER TABLE "JoinTeamRequest" ADD CONSTRAINT "JoinTeamRequest_userId_fkey" FOREI
 ALTER TABLE "JoinTeamRequest" ADD CONSTRAINT "JoinTeamRequest_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserToUserMessage" ADD CONSTRAINT "UserToUserMessage_senderId_fkey" FOREIGN KEY ("senderId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserToUserMessage" ADD CONSTRAINT "UserToUserMessage_senderId_fkey" FOREIGN KEY ("senderId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserToUserMessage" ADD CONSTRAINT "UserToUserMessage_receiverId_fkey" FOREIGN KEY ("receiverId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserToUserMessage" ADD CONSTRAINT "UserToUserMessage_receiverId_fkey" FOREIGN KEY ("receiverId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserToUserMessage" ADD CONSTRAINT "UserToUserMessage_messageId_fkey" FOREIGN KEY ("messageId") REFERENCES "Message"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserToTeamMessage" ADD CONSTRAINT "UserToTeamMessage_senderId_fkey" FOREIGN KEY ("senderId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserToTeamMessage" ADD CONSTRAINT "UserToTeamMessage_senderId_fkey" FOREIGN KEY ("senderId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserToTeamMessage" ADD CONSTRAINT "UserToTeamMessage_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserToTeamMessage" ADD CONSTRAINT "UserToTeamMessage_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserToTeamMessage" ADD CONSTRAINT "UserToTeamMessage_messageId_fkey" FOREIGN KEY ("messageId") REFERENCES "Message"("id") ON DELETE CASCADE ON UPDATE CASCADE;

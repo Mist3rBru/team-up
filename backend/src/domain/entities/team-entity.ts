@@ -5,6 +5,8 @@ import { UUID } from '#domain/entities/uuid.js'
 export class Team {
   private readonly props: Team.Props
 
+  static readonly MAX_TAG_LENGTH = 15
+
   constructor(params: Team.Params) {
     this.props = {
       ...params,
@@ -27,8 +29,10 @@ export class Team {
 
   get name(): string {
     return (
-      this.props.name ??
-      this.members?.map(member => member.name).join(', ') ??
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      this.props.name ||
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      this.members?.map(member => member.displayName).join(', ') ||
       ''
     )
   }
@@ -43,6 +47,10 @@ export class Team {
 
   get isPublic(): boolean {
     return this.props.isPublic
+  }
+
+  get tags(): string[] {
+    return this.props.tags
   }
 
   get createdAt(): Date {
@@ -70,6 +78,7 @@ export namespace Team {
     description: string
     isOpen: boolean
     isPublic: boolean
+    tags: string[]
     createdAt: Date
     updatedAt: Date
 
@@ -84,6 +93,7 @@ export namespace Team {
     description: string
     isOpen: boolean
     isPublic: boolean
+    tags: string[]
     createdAt?: Date
     updatedAt?: Date
 

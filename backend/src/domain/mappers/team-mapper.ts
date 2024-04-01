@@ -14,6 +14,7 @@ export class TeamMapper {
       description: this.props.description,
       isOpen: this.props.isOpen,
       isPublic: this.props.isPublic,
+      tags: this.props.tags,
       createdAt: this.props.createdAt,
       updatedAt: this.props.updatedAt,
     }
@@ -26,6 +27,7 @@ export class TeamMapper {
       description: this.props.description,
       isOpen: this.props.isOpen,
       isPublic: this.props.isPublic,
+      tags: this.props.tags,
       createdAt: this.props.createdAt,
       updatedAt: this.props.updatedAt,
 

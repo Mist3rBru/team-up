@@ -1,3 +1,4 @@
+import { Team } from '#domain/entities/team-entity.js'
 import { ICreateTeam } from '#domain/usecases/team/create-team.js'
 import { created } from '#presentation/utils/http-response.js'
 import type { HttpResponse } from '#presentation/utils/http-response.js'
@@ -9,6 +10,7 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  MaxLength,
 } from 'class-validator'
 
 class CreateTeamBodyDto {
@@ -27,6 +29,11 @@ class CreateTeamBodyDto {
 
   @IsBoolean()
   isPublic: boolean
+
+  @IsArray()
+  @IsString({ each: true })
+  @MaxLength(Team.MAX_TAG_LENGTH, { each: true })
+  tags: string[]
 
   @IsArray()
   @IsUUID('4', { each: true })

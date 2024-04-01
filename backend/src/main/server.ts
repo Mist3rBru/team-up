@@ -22,8 +22,7 @@ async function bootstrap(): Promise<void> {
       {
         realm: `http://${process.env.APP_HOST}`,
         apiKey: process.env.STEAM_SECRET,
-        returnURL:
-          'http://' + `${process.env.APP_HOST}/auth/login/steam/redirect`,
+        returnURL: `http://${process.env.APP_HOST}/auth/login/steam/redirect`,
       },
       (identifier, profile, done): void => {
         done(null, {

@@ -15,9 +15,6 @@ export class User {
       id: new UUID(params.id),
       steamId: params.steamId ?? null,
       email: params.email ?? null,
-      img:
-        params.img ??
-        `${process.env.APP_HOST}/public/uploads/img/default-user-avatar.jpg`,
       createdAt: params.createdAt ?? new Date(),
       updatedAt: params.updatedAt ?? new Date(),
     }
@@ -32,7 +29,11 @@ export class User {
   }
 
   get img(): string {
-    return this.props.img
+    return (
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      this.props.img ||
+      `${process.env.APP_HOST}/public/uploads/img/default-user-avatar.jpg`
+    )
   }
 
   get name(): string {
@@ -92,7 +93,7 @@ export namespace User {
   export interface Props {
     id: UUID
     steamId: string | null
-    img: string
+    img?: string
     name: string
     displayName: string
     email: string | null

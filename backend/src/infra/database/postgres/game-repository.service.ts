@@ -101,6 +101,7 @@ export class GameRepository implements IGameRepository {
       ...data,
       teams: data.teams.map(team => ({
         ...team,
+        // It is used to set team.name if name is empty
         members: team.members.map(({ user, isModerator }) => ({
           ...user,
           isModerator,

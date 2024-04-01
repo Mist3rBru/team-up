@@ -33,7 +33,6 @@ export class GameMapper {
       updatedAt: this.props.updatedAt,
 
       platforms: this.props.platforms?.map(platform =>
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         new PlatformMapper(platform).toHttp()
       ),
       teams: this.props.teams?.map(team => new TeamMapper(team).toHttp()),
