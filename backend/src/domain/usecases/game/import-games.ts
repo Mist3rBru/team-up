@@ -4,6 +4,6 @@ export abstract class IImportGames {
 
 export namespace IImportGames {
   export interface Params {
-    userId: string
+    token: string
   }
 }

@@ -11,6 +11,7 @@ import { AxiosAdapter } from '#infra/adapters/axios-adapter.js'
 import { GameRepositoryModule } from '#main/modules/repositories/game-repository.module.js'
 import { PlatformRepositoryModule } from '#main/modules/repositories/platform-repository.module.js'
 import { UserRepositoryModule } from '#main/modules/repositories/user-repository.module.js'
+import { AuthenticationServicesModule } from '#main/modules/services/authentication-services.module.js'
 import { Module } from '@nestjs/common'
 
 @Module({
@@ -18,6 +19,7 @@ import { Module } from '@nestjs/common'
     GameRepositoryModule,
     UserRepositoryModule,
     PlatformRepositoryModule,
+    AuthenticationServicesModule,
   ],
   controllers: [
     CreateGameController,

@@ -3,7 +3,7 @@ import { UserMapper } from '#domain/mappers/user-mapper.js'
 
 export interface HttpResponse {
   statusCode: number
-  error?: string | null
+  error?: string
   message?: string
 }
 

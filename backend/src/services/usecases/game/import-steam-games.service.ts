@@ -1,10 +1,10 @@
 import { Game } from '#domain/entities/game-entity.js'
 import { IImportGames } from '#domain/usecases/game/import-games.js'
+import { IFindUserByToken } from '#domain/usecases/user/find-user-by-token.js'
 import { IFetchBuilder } from '#services/protocols/data/fetch-builder.js'
 import { IUpsertGameRepository } from '#services/protocols/database/game-repository.js'
 import { IUpsertUserGameRepository } from '#services/protocols/database/game-repository.js'
 import { IFindPlatformByNameRepository } from '#services/protocols/database/platform-repository.js'
-import { IFindUserByIdRepository } from '#services/protocols/database/user-repository.js'
 import {
   Injectable,
   InternalServerErrorException,
@@ -14,7 +14,7 @@ import {
 @Injectable()
 export class ImportSteamGamesService implements IImportGames {
   constructor(
-    private readonly findUserByIdRepository: IFindUserByIdRepository,
+    private readonly findUserByTokenService: IFindUserByToken,
     private readonly findPlatformByNameRepository: IFindPlatformByNameRepository,
     private readonly fetchBuilder: IFetchBuilder,
     private readonly upsertGameRepository: IUpsertGameRepository,
@@ -22,13 +22,9 @@ export class ImportSteamGamesService implements IImportGames {
   ) {}
 
   async import(data: IImportGames.Params): Promise<void> {
-    const { userId } = data
+    const { token } = data
 
-    const user = await this.findUserByIdRepository.findById(userId)
-
-    if (!user) {
-      throw new NotFoundException('Usuário não encontrado')
-    }
+    const user = await this.findUserByTokenService.find({ token })
 
     if (!user.steamId) {
       throw new NotFoundException('Conta steam não cadastrada')

@@ -1,7 +1,8 @@
 import { IImportGames } from '#domain/usecases/game/import-games.js'
+import { Token } from '#presentation/decorators/token.decorator.js'
 import { created } from '#presentation/utils/http-response.js'
 import type { HttpResponse } from '#presentation/utils/http-response.js'
-import { Controller, Inject, Param, ParseUUIDPipe, Post } from '@nestjs/common'
+import { Controller, Inject, Post } from '@nestjs/common'
 
 @Controller()
 export class ImportSteamGamesController {
@@ -10,11 +11,9 @@ export class ImportSteamGamesController {
     private readonly importSteamGamesService: IImportGames
   ) {}
 
-  @Post('/games/import/steam/:userId')
-  async handle(
-    @Param('userId', ParseUUIDPipe) userId: string
-  ): Promise<HttpResponse> {
-    await this.importSteamGamesService.import({ userId })
+  @Post('/games/import/steam')
+  async handle(@Token() token: string): Promise<HttpResponse> {
+    await this.importSteamGamesService.import({ token })
 
     return created('Jogos importados com sucesso')
   }
