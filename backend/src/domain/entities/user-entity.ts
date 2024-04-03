@@ -28,6 +28,11 @@ export class User {
     return this.props.steamId
   }
 
+  set steamId(steamId: string) {
+    this.props.steamId = steamId
+    this.update()
+  }
+
   get img(): string {
     return (
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
