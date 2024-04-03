@@ -3,9 +3,11 @@ import type {
   IDecrypter,
   IEncrypter,
 } from '#services/protocols/data/encrypter.js'
+import { Injectable } from '@nestjs/common'
 import jwt from 'jsonwebtoken'
 import type { SignOptions, VerifyOptions } from 'jsonwebtoken'
 
+@Injectable()
 export class JwtAdapter implements IEncrypter, IDecrypter {
   private readonly secret: string
   public readonly options: SignOptions & VerifyOptions

@@ -5,7 +5,7 @@ import type { Request } from 'express'
 export const Token = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest<Request>()
-    const token = request.headers.authorization
+    const token = request.headers.authorization ?? request.query.token
 
     if (!token) {
       throw new UnauthorizedException('Acesso negado')

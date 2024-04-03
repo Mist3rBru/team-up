@@ -1,7 +1,7 @@
 import { Game } from '#domain/entities/game-entity.js'
 import { IImportGames } from '#domain/usecases/game/import-games.js'
 import { IFindUserByToken } from '#domain/usecases/user/find-user-by-token.js'
-import { IFetchBuilder } from '#services/protocols/data/fetch-builder.js'
+import { IFetchBuilder } from '#services/protocols/data/fetcher.js'
 import { IUpsertGameRepository } from '#services/protocols/database/game-repository.js'
 import { IUpsertUserGameRepository } from '#services/protocols/database/game-repository.js'
 import { IFindPlatformByNameRepository } from '#services/protocols/database/platform-repository.js'

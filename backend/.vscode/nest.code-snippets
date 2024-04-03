@@ -241,6 +241,18 @@
       "",
     ],
   },
+  "createAdapter": {
+    "scope": "typescript",
+    "prefix": "adapter",
+    "body": [
+      "import { Injectable } from '@nestjs/common'",
+      "",
+      "@Injectable()",
+      "export class $1Adapter implements I$2 {",
+      "}",
+      "",
+    ],
+  },
   "private readonly": {
     "scope": "typescript",
     "prefix": "pr",

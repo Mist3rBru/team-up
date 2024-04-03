@@ -1,3 +1,5 @@
+import type { User } from '#domain/entities/user-entity.js'
+
 export abstract class IFetchBuilder {
   protected props: {
     method: IFetchBuilder.Method
@@ -55,4 +57,8 @@ export abstract class IFetchBuilder {
 
 export namespace IFetchBuilder {
   export type Method = 'get'
+}
+
+export abstract class IFetchUser {
+  abstract fetchUser(userId: string): Promise<User | null>
 }
