@@ -1,11 +1,11 @@
-import { Game } from '#domain/entities/game-entity.js'
 import { IImportGames } from '#domain/usecases/game/import-games.js'
 import { IFindUserByToken } from '#domain/usecases/user/find-user-by-token.js'
-import { IFetchBuilder } from '#services/protocols/data/fetcher.js'
+import { IFetchUserGames } from '#services/protocols/data/fetcher.js'
 import { IUpsertGameRepository } from '#services/protocols/database/game-repository.js'
 import { IUpsertUserGameRepository } from '#services/protocols/database/game-repository.js'
 import { IFindPlatformByNameRepository } from '#services/protocols/database/platform-repository.js'
 import {
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -16,7 +16,8 @@ export class ImportSteamGamesService implements IImportGames {
   constructor(
     private readonly findUserByTokenService: IFindUserByToken,
     private readonly findPlatformByNameRepository: IFindPlatformByNameRepository,
-    private readonly fetchBuilder: IFetchBuilder,
+    @Inject('IFetchSteamUserGames')
+    private readonly fetchUserGames: IFetchUserGames,
     private readonly upsertGameRepository: IUpsertGameRepository,
     private readonly upsertUserGameRepository: IUpsertUserGameRepository
   ) {}
@@ -37,26 +38,7 @@ export class ImportSteamGamesService implements IImportGames {
     }
 
     try {
-      const [remoteGames, remoteOwnedGames] = await Promise.all([
-        this.getRemoteGames(),
-        this.getRemoteOwnedGames(user.steamId),
-      ])
-
-      const ownedGames = remoteOwnedGames
-        .map(ownedGame => {
-          const game = remoteGames.find(
-            _game => _game.appid === ownedGame.appid
-          )
-
-          return (
-            game &&
-            new Game({
-              img: `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`,
-              name: game.name,
-            })
-          )
-        })
-        .filter(Boolean)
+      const ownedGames = await this.fetchUserGames.fetchGames(user.steamId)
 
       await Promise.all(
         ownedGames.map(async ownedGame => {
@@ -71,43 +53,5 @@ export class ImportSteamGamesService implements IImportGames {
 
       throw new InternalServerErrorException('failed to import games')
     }
-  }
-
-  async getRemoteOwnedGames(steamId: string): Promise<{ appid: string }[]> {
-    const {
-      response: { games: ownedGamesWithIds },
-    } = await this.fetchBuilder
-      .url('http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001')
-      .params({
-        key: process.env.STEAM_SECRET,
-        steamId,
-        format: 'json',
-      })
-      .fetch<{
-        response: {
-          games: {
-            appid: string
-          }[]
-        }
-      }>()
-
-    return ownedGamesWithIds
-  }
-
-  async getRemoteGames(): Promise<{ appid: string; name: string }[]> {
-    const {
-      applist: { apps },
-    } = await this.fetchBuilder
-      .url('http://api.steampowered.com/ISteamApps/GetAppList/v2')
-      .fetch<{
-        applist: {
-          apps: {
-            appid: string
-            name: string
-          }[]
-        }
-      }>()
-
-    return apps
   }
 }

@@ -1,14 +1,17 @@
+import { Game } from '#domain/entities/game-entity.js'
 import { User } from '#domain/entities/user-entity.js'
-import { IFetchUser } from '#services/protocols/data/fetcher.js'
+import {
+  IFetchUser,
+  IFetchUserGames,
+} from '#services/protocols/data/fetcher.js'
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import type SteamApi from 'steamapi'
 
 @Injectable()
-export class SteamAdapter implements IFetchUser {
+export class SteamAdapter implements IFetchUser, IFetchUserGames {
   private api: SteamApi
 
   constructor(apiKey: string) {
-    // eslint-disable-next-line security/detect-eval-with-expression
     ;(
       eval(`import('steamapi')`) as Promise<{
         default: new (key: string) => SteamApi
@@ -37,5 +40,30 @@ export class SteamAdapter implements IFetchUser {
       img: summary.avatar.large,
       password: '',
     })
+  }
+
+  async fetchGames(userId: string): Promise<Game[]> {
+    const [games, ownedGames] = await Promise.all([
+      this.api.getAppList(),
+      this.api.getUserOwnedGames(userId),
+    ])
+
+    return ownedGames
+      .map(ownedGame => {
+        const game = games.find(_game => _game.appid === ownedGame.game.id)
+
+        return (
+          game &&
+          new Game({
+            img:
+              ownedGame.game.headerURL ||
+              ownedGame.game.headerMediumURL ||
+              ownedGame.game.backgroundURL ||
+              `https://cdn.cloudflare.steamstatic.com/steam/apps/${ownedGame.game.id}/header.jpg`,
+            name: game.name,
+          })
+        )
+      })
+      .filter(Boolean)
   }
 }

@@ -1,3 +1,4 @@
+import type { Game } from '#domain/entities/game-entity.js'
 import type { User } from '#domain/entities/user-entity.js'
 
 export abstract class IFetchBuilder {
@@ -61,4 +62,8 @@ export namespace IFetchBuilder {
 
 export abstract class IFetchUser {
   abstract fetchUser(userId: string): Promise<User | null>
+}
+
+export abstract class IFetchUserGames {
+  abstract fetchGames(userId: string): Promise<Game[]>
 }
