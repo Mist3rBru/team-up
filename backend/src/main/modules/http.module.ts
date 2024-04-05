@@ -6,15 +6,15 @@ import { UserControllersModule } from '#main/modules/controllers/user-controller
 import { Module } from '@nestjs/common'
 import { MulterModule } from '@nestjs/platform-express'
 import { ServeStaticModule } from '@nestjs/serve-static'
-import { resolve } from 'node:path'
+import path from 'node:path'
 
 @Module({
   imports: [
     MulterModule.register({
-      dest: resolve('public/uploads'),
+      dest: path.resolve('public/uploads'),
     }),
     ServeStaticModule.forRoot({
-      rootPath: resolve('public'),
+      rootPath: path.resolve('public'),
       serveRoot: '/public',
     }),
     AuthControllersModule,

@@ -5,13 +5,7 @@
   },
   "extends": ["plugin:mist3rbru/node"],
   "rules": {
-    "no-duplicate-imports": "off",
-
-    "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
-    "import/no-duplicates": "off",
-
-    "@typescript-eslint/max-params": "off",
-    "@typescript-eslint/use-unknown-in-catch-callback-variable": "off"
+    "@typescript-eslint/max-params": "off"
   },
   "overrides": [
     {
