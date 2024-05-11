@@ -8,14 +8,15 @@
     android:background="@drawable/background">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="321dp"
         android:layout_height="315dp"
         android:background="#2a2634"
-        android:showDividers="middle"
         android:divider="@drawable/empty_short_divider"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="15dp"
+        android:showDividers="middle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,8 +39,8 @@
             android:background="#18181b"
             android:ems="10"
             android:inputType="text"
-            android:textColor="#c4c4c6"
             android:padding="5dp"
+            android:textColor="#c4c4c6"
             android:textSize="20dp" />
 
         <TextView
@@ -59,8 +60,8 @@
             android:background="#18181b"
             android:ems="10"
             android:inputType="text"
-            android:textColor="#c4c4c6"
             android:padding="5dp"
+            android:textColor="#c4c4c6"
             android:textSize="20dp" />
 
         <Button
@@ -71,4 +72,15 @@
             android:textSize="20dp"
             app:cornerRadius="10dp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/chooseLoginMethod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Escolher outra forma de acesso"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:layout_marginTop="15dp"
+        android:textColor="#F0F0F0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
