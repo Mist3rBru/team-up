@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
-            android:text="Nome do Usuário"
+            android:text="Nome de Usuário"
             android:textColor="#c4c4c6"
             android:textSize="24dp" />
 
