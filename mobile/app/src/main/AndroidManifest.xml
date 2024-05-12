@@ -13,9 +13,6 @@
         android:theme="@style/Theme.TeamUp"
         tools:targetApi="33">
         <activity
-            android:name=".OAuthActivity"
-            android:exported="false" />
-        <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -24,6 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".OAuthActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

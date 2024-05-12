@@ -17,11 +17,20 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         TextView chooseLoginMethod = findViewById(R.id.chooseLoginMethod);
+        TextView signUp = findViewById(R.id.signUp);
 
         chooseLoginMethod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=   new Intent(LoginActivity.this, OAuthActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=   new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(intent);
             }
         });
