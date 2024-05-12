@@ -7,6 +7,17 @@
     tools:context=".LoginActivity"
     android:background="@drawable/background">
 
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="43dp"
+        android:layout_height="35dp"
+        android:layout_margin="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/back_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="340dp"
         android:layout_height="607dp"
@@ -127,11 +138,13 @@
             android:textSize="20dp" />
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="304dp"
+            android:id="@+id/signUpButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cadastrar"
+            android:text="Cadastrar-se"
             android:textSize="20dp"
             app:cornerRadius="10dp" />
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
