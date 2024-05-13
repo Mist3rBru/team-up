@@ -13,6 +13,16 @@
         android:theme="@style/Theme.TeamUp"
         tools:targetApi="33">
         <activity
+            android:name=".GameNetworkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GameNetwork"
+            android:exported="false"
+            android:theme="@style/Theme.TeamUp" />
+        <activity
+            android:name=".activity_game_network"
+            android:exported="false" />
+        <activity
             android:name=".GameCenterActivity"
             android:exported="false" />
         <activity
