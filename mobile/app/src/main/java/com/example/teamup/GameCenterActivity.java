@@ -19,7 +19,7 @@ public class GameCenterActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_game_center);
 
-        ImageView imageView = findViewById(R.id.view6);
+        ImageView gameImage = findViewById(R.id.view6);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -27,7 +27,7 @@ public class GameCenterActivity extends AppCompatActivity {
             return insets;
         });
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+        gameImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=   new Intent(GameCenterActivity.this, GameNetworkActivity.class);
