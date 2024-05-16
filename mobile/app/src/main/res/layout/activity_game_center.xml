@@ -113,42 +113,50 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="200dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="200dp"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/game1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
-                            android:contentDescription="game_lol"
-                            android:src="@drawable/game_lol" />
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
+                            android:contentDescription="game_default"
+                            android:src="@drawable/game_default" />
 
                         <ImageView
                             android:id="@+id/game2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
-                            android:contentDescription="game_dota"
-                            android:src="@drawable/game_dota" />
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
+                            android:contentDescription="game_default"
+                            android:src="@drawable/game_default" />
 
                         <ImageView
                             android:id="@+id/game3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
-                            android:contentDescription="game_smite"
-                            android:src="@drawable/game_smite" />
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
+                            android:contentDescription="game_default"
+                            android:src="@drawable/game_default" />
 
                         <ImageView
                             android:id="@+id/game4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
                             android:contentDescription="game_default"
                             android:src="@drawable/game_default" />
 
@@ -178,42 +186,50 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="200dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="200dp"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/game5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
-                            android:contentDescription="game_cs"
-                            android:src="@drawable/game_cs" />
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
+                            android:contentDescription="game_default"
+                            android:src="@drawable/game_default" />
 
                         <ImageView
                             android:id="@+id/game6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
-                            android:contentDescription="game_cod"
-                            android:src="@drawable/game_cod" />
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
+                            android:contentDescription="game_default"
+                            android:src="@drawable/game_default" />
 
                         <ImageView
                             android:id="@+id/game7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
                             android:contentDescription="game_default"
                             android:src="@drawable/game_default" />
 
                         <ImageView
                             android:id="@+id/game8"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
                             android:contentDescription="game_default"
                             android:src="@drawable/game_default" />
 
@@ -243,42 +259,50 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="200dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="200dp"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/game9"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
                             android:contentDescription="game_default"
                             android:src="@drawable/game_default" />
 
                         <ImageView
                             android:id="@+id/game10"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
                             android:contentDescription="game_default"
                             android:src="@drawable/game_default" />
 
                         <ImageView
                             android:id="@+id/game11"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
                             android:contentDescription="game_default"
                             android:src="@drawable/game_default" />
 
                         <ImageView
                             android:id="@+id/game12"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
                             android:contentDescription="game_default"
                             android:src="@drawable/game_default" />
 
@@ -308,42 +332,50 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="200dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="200dp"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/game13"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
                             android:contentDescription="game_default"
                             android:src="@drawable/game_default" />
 
                         <ImageView
                             android:id="@+id/game14"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
                             android:contentDescription="game_default"
                             android:src="@drawable/game_default" />
 
                         <ImageView
                             android:id="@+id/game15"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
                             android:contentDescription="game_default"
                             android:src="@drawable/game_default" />
 
                         <ImageView
                             android:id="@+id/game16"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="133dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"
                             android:contentDescription="game_default"
                             android:src="@drawable/game_default" />
 
