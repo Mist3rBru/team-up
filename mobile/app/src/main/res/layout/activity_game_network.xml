@@ -6,62 +6,63 @@
     android:background="@drawable/background"
     tools:context=".LoginActivity">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="220dp"
-        android:layout_weight="0.3"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+            android:id="@+id/image_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/codimage" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/dark_overlay"
+            tools:layout_editor_absoluteY="80dp" />
 
-            <ImageView
-                android:id="@+id/image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@drawable/codimage" />
+        <ImageView
+            android:id="@+id/icon_left"
+            android:layout_width="43dp"
+            android:layout_height="35dp"
+            android:layout_margin="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="28dp"
+            android:src="@drawable/back_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/dark_overlay"
-                tools:layout_editor_absoluteY="80dp" />
+        <ImageView
+            android:id="@+id/icon_right"
+            android:layout_width="38dp"
+            android:layout_height="47dp"
+            android:layout_margin="16dp"
+            android:src="@drawable/filter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/icon_left"
-                android:layout_width="43dp"
-                android:layout_height="35dp"
-                android:layout_margin="20dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="28dp"
-                android:src="@drawable/back_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/icon_right"
-                android:layout_width="38dp"
-                android:layout_height="47dp"
-                android:layout_margin="16dp"
-                android:src="@drawable/filter"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <RelativeLayout
-            android:layout_width="250dp"
+        <LinearLayout
             android:layout_height="wrap_content"
+            android:layout_width="250dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="60dp"
-            android:background="#80000000">
+            android:layout_marginBottom="20dp"
+            android:background="#80000000"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <View
+                android:layout_width="7dp"
+                android:layout_height="match_parent"
+                android:background="#8B5CF6" />
 
             <TextView
                 android:id="@+id/title_text"
@@ -73,10 +74,10 @@
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+        </LinearLayout>
 
-        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </FrameLayout>
 
     <GridLayout
         android:id="@+id/grid_layout"
@@ -88,10 +89,10 @@
         android:padding="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <LinearLayout
-            android:layout_width="161dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/rounded_corner"
@@ -151,7 +152,7 @@
                 android:padding="5dp">
 
                 <ImageView
-                    android:id="@+id/icon_joy1"
+                    android:id="@+id/icon_joy"
                     android:layout_width="34dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/joyicon" />
@@ -168,7 +169,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="161dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/rounded_corner"
@@ -228,7 +229,7 @@
                 android:padding="5dp">
 
                 <ImageView
-                    android:id="@+id/icon_joy2"
+                    android:id="@+id/icon_joy"
                     android:layout_width="34dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/joyicon" />
@@ -245,7 +246,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="161dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/rounded_corner"
@@ -305,7 +306,7 @@
                 android:padding="5dp">
 
                 <ImageView
-                    android:id="@+id/icon_joy3"
+                    android:id="@+id/icon_joy"
                     android:layout_width="34dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/joyicon" />
@@ -322,7 +323,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="161dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/rounded_corner"
@@ -382,7 +383,7 @@
                 android:padding="5dp">
 
                 <ImageView
-                    android:id="@+id/icon_joy4"
+                    android:id="@+id/icon_joy"
                     android:layout_width="34dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/joyicon" />
