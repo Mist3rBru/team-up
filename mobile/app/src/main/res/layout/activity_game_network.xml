@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
+    android:id="@+id/main"
     tools:context=".LoginActivity">
 
 
@@ -152,7 +153,7 @@
                 android:padding="5dp">
 
                 <ImageView
-                    android:id="@+id/icon_joy"
+                    android:id="@+id/icon_joy1"
                     android:layout_width="34dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/joyicon" />
@@ -229,7 +230,7 @@
                 android:padding="5dp">
 
                 <ImageView
-                    android:id="@+id/icon_joy"
+                    android:id="@+id/icon_joy2"
                     android:layout_width="34dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/joyicon" />
@@ -306,7 +307,7 @@
                 android:padding="5dp">
 
                 <ImageView
-                    android:id="@+id/icon_joy"
+                    android:id="@+id/icon_joy3"
                     android:layout_width="34dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/joyicon" />
