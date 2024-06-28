@@ -4,14 +4,30 @@ networks:
   team-up:
 
 services:
-  team-up-api:
-    container_name: team-up-api
+  prisma:
+    container_name: prisma-container
+    image: postgres:14
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_HOST_AUTH=trust
+    networks:
+      - team-up
+
+  team-up:
+    container_name: team-up-container
     build: 
       dockerfile: ./Dockerfile
       target: development
       context: .
     environment:
+      - DB_URL=postgresql://admin:admin@prisma:5432/team-up?schema=public
+      - APP_HOST=${APP_HOST}
       - TOKEN_SECRET=${TOKEN_SECRET}
+      - STEAM_SECRET=${STEAM_SECRET}
     networks:
       - team-up
     ports:
