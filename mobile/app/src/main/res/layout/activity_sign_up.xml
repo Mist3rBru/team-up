@@ -8,7 +8,7 @@
     android:background="@drawable/background">
 
     <ImageView
-        android:id="@+id/back_icon"
+        android:id="@+id/backIcon"
         android:layout_width="43dp"
         android:layout_height="35dp"
         android:layout_margin="20dp"
