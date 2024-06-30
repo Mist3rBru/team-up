@@ -1,6 +1,5 @@
 import { Game } from '#domain/entities/game-entity.js'
 import { Platform } from '#domain/entities/platform-entity.js'
-import { Team } from '#domain/entities/team-entity.js'
 import { User } from '#domain/entities/user-entity.js'
 import { UserMapper } from '#domain/mappers/user-mapper.js'
 import type {
@@ -10,7 +9,6 @@ import type {
   IFindUserByNameRepository,
   IListUserGamesRepository,
   IListUserPlatformsRepository,
-  IListUserTeamsRepository,
   IUpdateUserRepository,
 } from '#services/protocols/database/user-repository.js'
 import { PrismaService } from '#infra/database/postgres/prisma.service.js'
@@ -23,8 +21,7 @@ interface IUserRepository
     IFindUserByIdRepository,
     IFindUserByNameRepository,
     IListUserGamesRepository,
-    IListUserPlatformsRepository,
-    IListUserTeamsRepository {}
+    IListUserPlatformsRepository {}
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -126,33 +123,5 @@ export class UserRepository implements IUserRepository {
     })
 
     return data.map(d => new Platform(d))
-  }
-
-  async listTeams(userId: string): Promise<Team[]> {
-    const data = await this.db.team.findMany({
-      where: {
-        members: {
-          some: {
-            userId,
-          },
-        },
-      },
-      include: {
-        game: true,
-        members: {
-          select: {
-            user: true,
-          },
-        },
-      },
-    })
-
-    return data.map(
-      d =>
-        new Team({
-          ...d,
-          members: d.members.map(({ user }) => user),
-        })
-    )
   }
 }

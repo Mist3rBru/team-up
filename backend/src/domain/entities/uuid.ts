@@ -6,7 +6,9 @@ export class UUID {
   }
 
   static parse<T extends string | null>(id: T): T {
-    if (!id) return id
+    if (!id) {
+      return id
+    }
 
     return id.replaceAll(/[^\w-]/g, '') as T
   }

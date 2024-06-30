@@ -3,7 +3,6 @@ import { IFindUserById } from '#domain/usecases/user/find-user-by-id.js'
 import { IFindUserByToken } from '#domain/usecases/user/find-user-by-token.js'
 import { IListUserGames } from '#domain/usecases/user/list-user-games.js'
 import { IListUserPlatforms } from '#domain/usecases/user/list-user-platforms.js'
-import { IListUserTeams } from '#domain/usecases/user/list-user-teams.js'
 import { IUpdateUserPassword } from '#domain/usecases/user/update-user-password.js'
 import { IUpdateUserSteam } from '#domain/usecases/user/update-user-steam.js'
 import { IUpdateUser } from '#domain/usecases/user/update-user.js'
@@ -12,7 +11,6 @@ import { FindUserByIdController } from '#presentation/controllers/user/find-user
 import { FindUserByTokenController } from '#presentation/controllers/user/find-user-by-token.controller.js'
 import { ListUserGamesController } from '#presentation/controllers/user/list-user-games.controller.js'
 import { ListUserPlatformsController } from '#presentation/controllers/user/list-user-platforms.controller.js'
-import { ListUserTeamsController } from '#presentation/controllers/user/list-user-teams.controller.js'
 import { UpdateUserPasswordController } from '#presentation/controllers/user/update-user-password.controller.js'
 import { UpdateUserSteamController } from '#presentation/controllers/user/update-user-steam.controller.js'
 import { UpdateUserController } from '#presentation/controllers/user/update-user.controller.js'
@@ -39,7 +37,6 @@ import { Module } from '@nestjs/common'
     FindUserByTokenController,
     ListUserGamesController,
     ListUserPlatformsController,
-    ListUserTeamsController,
   ],
   providers: [
     PrismaService,
@@ -51,7 +48,6 @@ import { Module } from '@nestjs/common'
     { provide: IFindUserByToken, useClass: FindUserByTokenService },
     { provide: IListUserGames, useClass: UserRepository },
     { provide: IListUserPlatforms, useClass: UserRepository },
-    { provide: IListUserTeams, useClass: UserRepository },
   ],
 })
 export class UserControllersModule {}

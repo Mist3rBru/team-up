@@ -20,19 +20,19 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@nestjs/common": "^10.3.7",
-    "@nestjs/core": "^10.3.7",
+    "@nestjs/common": "^10.3.9",
+    "@nestjs/core": "^10.3.9",
     "@nestjs/passport": "^10.0.3",
-    "@nestjs/platform-express": "^10.3.7",
+    "@nestjs/platform-express": "^10.3.9",
     "@nestjs/serve-static": "^4.0.2",
-    "@prisma/client": "^5.12.1",
-    "axios": "^1.6.8",
+    "@prisma/client": "^5.16.1",
+    "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "jsonwebtoken": "^9.0.2",
     "rxjs": "^7.8.1",
-    "steamapi": "^3.0.8"
+    "steamapi": "^3.0.11"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.3.2",
@@ -42,14 +42,14 @@
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.12.4",
+    "@types/node": "^20.14.9",
     "eslint": "^8.57.0",
-    "eslint-plugin-mist3rbru": "^0.5.1",
-    "npm-run-all2": "^6.1.2",
-    "prettier": "^3.2.5",
-    "prisma": "^5.12.1",
-    "tsx": "^4.7.2",
-    "typescript": "^5.4.4"
+    "eslint-plugin-mist3rbru": "^0.5.5",
+    "npm-run-all2": "^6.2.0",
+    "prettier": "^3.3.2",
+    "prisma": "^5.16.1",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.2"
   },
   "imports": {
     "#*": "./dist/*"

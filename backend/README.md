@@ -1,6 +1,5 @@
 ## Routes
 
-
 <details>
   <summary>Error</summary>
   <ul>
@@ -82,7 +81,6 @@
     <li>token: string</li>
   </ul>
 </details>
-
 
 <details>
   <summary><b>GET /user</b></summary>
@@ -182,7 +180,6 @@
     </ul>
   </ul>
 </details>
-
 
 <details>
   <summary><b>GET /users/:userId/teams</b></summary>

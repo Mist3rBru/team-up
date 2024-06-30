@@ -75,16 +75,6 @@ export class GameRepository implements IGameRepository {
         id,
       },
       include: {
-        teams: {
-          include: {
-            members: {
-              select: {
-                user: true,
-                isModerator: true,
-              },
-            },
-          },
-        },
         gamePlatforms: {
           select: {
             platform: true,
@@ -99,14 +89,6 @@ export class GameRepository implements IGameRepository {
 
     return new Game({
       ...data,
-      teams: data.teams.map(team => ({
-        ...team,
-        // It is used to set team.name if name is empty
-        members: team.members.map(({ user, isModerator }) => ({
-          ...user,
-          isModerator,
-        })),
-      })),
       platforms: data.gamePlatforms.map(({ platform }) => platform),
     })
   }
