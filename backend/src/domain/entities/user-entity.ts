@@ -77,8 +77,8 @@ export class User {
     this.update()
   }
 
-  get isModerator(): boolean | undefined {
-    return this.props.isModerator
+  get contacts(): User.Contact[] | undefined {
+    return this.contacts
   }
 
   get createdAt(): Date {
@@ -95,6 +95,14 @@ export class User {
 }
 
 export namespace User {
+  export interface Contact {
+    id: string
+    userId: string
+    platform: string
+    name: string
+    createdAt: Date
+  }
+
   export interface Props {
     id: UUID
     steamId: string | null
@@ -106,6 +114,7 @@ export namespace User {
     isModerator?: boolean
     createdAt: Date
     updatedAt: Date
+    contacts?: Contact[]
   }
 
   export interface Params {
@@ -119,5 +128,6 @@ export namespace User {
     isModerator?: boolean
     createdAt?: Date
     updatedAt?: Date
+    contacts?: Contact[]
   }
 }

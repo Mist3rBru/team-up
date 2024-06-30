@@ -8,7 +8,8 @@ export class GameMapper {
   public toPrisma(): PrismaPlatform {
     return {
       id: this.props.id,
-      img: this.props.img,
+      bannerImg: this.props.profileImg,
+      profileImg: this.props.profileImg,
       name: this.props.name,
       createdAt: this.props.createdAt,
       updatedAt: this.props.updatedAt,
@@ -17,15 +18,18 @@ export class GameMapper {
 
   public toHttp(): {
     id: string
-    img: string
+    bannerImg: string
+    profileImg: string
     name: string
     createdAt: Date
     updatedAt: Date
     platforms: ReturnType<PlatformMapper['toHttp']>[] | undefined
+    players: Game.Player[] | undefined
   } {
     return {
       id: this.props.id,
-      img: this.props.img,
+      bannerImg: this.props.bannerImg,
+      profileImg: this.props.profileImg,
       name: this.props.name,
       createdAt: this.props.createdAt,
       updatedAt: this.props.updatedAt,
@@ -33,6 +37,7 @@ export class GameMapper {
       platforms: this.props.platforms?.map(platform =>
         new PlatformMapper(platform).toHttp()
       ),
+      players: this.props.players,
     }
   }
 }

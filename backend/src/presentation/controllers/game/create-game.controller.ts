@@ -17,7 +17,10 @@ class CreateGameBodyDto {
   platforms: string[]
 
   @IsUrl()
-  img: string
+  bannerImg: string
+
+  @IsUrl()
+  profileImg: string
 
   @IsNotEmpty()
   name: string

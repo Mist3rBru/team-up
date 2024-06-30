@@ -57,7 +57,12 @@ export class GameRepository implements IGameRepository {
       userId: user.id,
     }
     await this.db.userGame.upsert({
-      create: userId_gameId,
+      create: {
+        userId: userId_gameId.userId,
+        gameId: userId_gameId.userId,
+        rank: '',
+        playTime: '',
+      },
       update: userId_gameId,
       where: { userId_gameId },
     })
@@ -80,6 +85,13 @@ export class GameRepository implements IGameRepository {
             platform: true,
           },
         },
+        userGames: {
+          select: {
+            user: true,
+            playTime: true,
+            rank: true,
+          },
+        },
       },
     })
 
@@ -90,6 +102,12 @@ export class GameRepository implements IGameRepository {
     return new Game({
       ...data,
       platforms: data.gamePlatforms.map(({ platform }) => platform),
+      players: data.userGames.map(({ user, playTime, rank }) => ({
+        id: user.id,
+        name: user.name,
+        playTime,
+        rank,
+      })),
     })
   }
 

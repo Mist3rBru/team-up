@@ -55,7 +55,12 @@ export class SteamAdapter implements IFetchUser, IFetchUserGames {
         return (
           game &&
           new Game({
-            img:
+            bannerImg:
+              ownedGame.game.headerURL ||
+              ownedGame.game.headerMediumURL ||
+              ownedGame.game.backgroundURL ||
+              `https://cdn.cloudflare.steamstatic.com/steam/apps/${ownedGame.game.id}/header.jpg`,
+            profileImg:
               ownedGame.game.headerURL ||
               ownedGame.game.headerMediumURL ||
               ownedGame.game.backgroundURL ||

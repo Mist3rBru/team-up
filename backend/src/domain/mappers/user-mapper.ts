@@ -43,15 +43,7 @@ export class UserMapper {
       id: this.props.id,
       img: this.props.img,
       name: this.props.displayName,
-    }
-  }
-
-  public toTeam() {
-    return {
-      id: this.props.id,
-      img: this.props.img,
-      name: this.props.displayName,
-      isModerator: this.props.isModerator,
+      contacts: this.props.contacts,
     }
   }
 

@@ -38,6 +38,9 @@ export class UserRepository implements IUserRepository {
       where: {
         OR: [{ id }, { steamId: id }],
       },
+      include: {
+        contacts: true,
+      },
     })
 
     if (!data) {
