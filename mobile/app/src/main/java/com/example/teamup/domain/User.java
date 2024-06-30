@@ -8,8 +8,8 @@ public class User implements Serializable {
     private String name;
 
     public User(String ig, String name) {
-        this.id=id;
-        this.name=name;
+        this.id = id;
+        this.name = name;
     }
 
     public String getId() {

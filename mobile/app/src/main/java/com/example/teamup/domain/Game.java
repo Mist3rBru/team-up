@@ -4,12 +4,14 @@ import java.io.Serializable;
 
 public class Game implements Serializable {
     private String id;
-    private String img;
+    private String bannerImg;
+    private String profileImg;
     private String name;
 
-    public Game(String id, String img, String name) {
+    public Game(String id, String bannerImg,String profileImg, String name) {
         this.id = id;
-        this.img = img;
+        this.bannerImg = bannerImg;
+        this.profileImg=profileImg;
         this.name = name;
     }
 
@@ -17,8 +19,12 @@ public class Game implements Serializable {
         return id;
     }
 
-    public String getImg() {
-        return img;
+    public String getBannerImg() {
+        return bannerImg;
+    }
+
+    public String getProfileImg() {
+        return profileImg;
     }
 
     public String getName() {

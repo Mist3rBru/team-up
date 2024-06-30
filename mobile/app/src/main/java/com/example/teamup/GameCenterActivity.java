@@ -111,7 +111,8 @@ public class GameCenterActivity extends AppCompatActivity {
                     JSONObject nestedObject = nestedArray.getJSONObject(j);
                     games.add(new Game(
                             nestedObject.getString("id"),
-                            nestedObject.getString("img"),
+                            nestedObject.getString("bannerImg"),
+                            nestedObject.getString("profileImg"),
                             nestedObject.getString("name"))
                     );
                 }
@@ -129,7 +130,6 @@ public class GameCenterActivity extends AppCompatActivity {
 
 
     private void populatePlatforms(List<Platform> platforms) {
-        Log.println(Log.INFO, "platforms", platforms.toString());
         for (int i = 0; i < platforms.size(); i++) {
             Platform platform = platforms.get(i);
 
@@ -173,7 +173,7 @@ public class GameCenterActivity extends AppCompatActivity {
         LinearLayout gamesLayout = gameCategoryView.findViewById(R.id.gamesLayout);
         for (Game game : platform.getGames()) {
             ImageView imageView = new ImageView(this);
-            Glide.with(this).load(game.getImg()).into(imageView);
+            Glide.with(this).load(game.getProfileImg()).into(imageView);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setAdjustViewBounds(true);
             imageView.setOnClickListener(v -> {
@@ -185,7 +185,7 @@ public class GameCenterActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.MATCH_PARENT
             );
-            layoutParams.setMargins(0, 0, 15, 0);
+            layoutParams.setMargins(0, 0, 20, 0);
             imageView.setLayoutParams(layoutParams);
             gamesLayout.addView(imageView);
         }
