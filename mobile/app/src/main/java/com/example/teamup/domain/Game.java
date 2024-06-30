@@ -1,6 +1,8 @@
 package com.example.teamup.domain;
 
-public class Game {
+import java.io.Serializable;
+
+public class Game implements Serializable {
     private String id;
     private String img;
     private String name;

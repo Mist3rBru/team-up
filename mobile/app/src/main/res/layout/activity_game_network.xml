@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/image_view"
+            android:id="@+id/bannerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
@@ -66,7 +66,7 @@
                 android:background="#8B5CF6" />
 
             <TextView
-                android:id="@+id/title_text"
+                android:id="@+id/gameTitleView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:outlineSpotShadowColor="#000000"
@@ -81,7 +81,7 @@
 
 
     <GridLayout
-        android:id="@+id/grid_layout"
+        android:id="@+id/playersGridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:alignmentMode="alignMargins"

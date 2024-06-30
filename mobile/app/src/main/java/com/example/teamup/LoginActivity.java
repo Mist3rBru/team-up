@@ -2,13 +2,16 @@ package com.example.teamup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.teamup.helpers.AuthResponse;
 import com.example.teamup.helpers.NetworkHelper;
@@ -31,7 +34,14 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         nameInput = findViewById(R.id.nameInput);
         passwordInput = findViewById(R.id.passwordInput);
@@ -43,28 +53,17 @@ public class LoginActivity extends AppCompatActivity {
         networkHelper = new NetworkHelper();
         tokenManager = TokenManager.getInstance(this);
 
-        chooseLoginMethod.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, OAuthActivity.class);
-                startActivity(intent);
-            }
+        chooseLoginMethod.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, OAuthActivity.class);
+            startActivity(intent);
         });
 
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-                startActivity(intent);
-            }
+        signUp.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+            startActivity(intent);
         });
 
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loginUser();
-            }
-        });
+        signIn.setOnClickListener(v -> loginUser());
     }
 
     void loginUser() {
@@ -97,14 +96,12 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     try {
                         JSONObject responseJson = new JSONObject(data);
-                        if (responseJson != null) {
-                            AuthResponse authResponse = new AuthResponse(responseJson);
-                            tokenManager.saveToken(authResponse.getToken());
+                        AuthResponse authResponse = new AuthResponse(responseJson);
+                        tokenManager.saveToken(authResponse.getToken());
 
-                            Intent intent = new Intent(LoginActivity.this, GameCenterActivity.class);
-                            intent.putExtra("user", authResponse.getUser());
-                            startActivity(intent);
-                        }
+                        Intent intent = new Intent(LoginActivity.this, GameCenterActivity.class);
+                        intent.putExtra("user", authResponse.getUser());
+                        startActivity(intent);
                     } catch (Exception e) {
                         Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }

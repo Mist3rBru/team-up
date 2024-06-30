@@ -2,13 +2,16 @@ package com.example.teamup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.teamup.helpers.AuthResponse;
 import com.example.teamup.helpers.NetworkHelper;
@@ -33,7 +36,14 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         backIcon = findViewById(R.id.backIcon);
         nameInput = findViewById(R.id.nameInput);
@@ -46,20 +56,12 @@ public class SignUpActivity extends AppCompatActivity {
         networkHelper = new NetworkHelper();
         tokenManager = TokenManager.getInstance(this);
 
-        backIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
+        backIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+            startActivity(intent);
         });
 
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerUser();
-            }
-        });
+        signUpButton.setOnClickListener(v -> registerUser());
     }
 
     private void registerUser() {
@@ -97,14 +99,12 @@ public class SignUpActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     try {
                         JSONObject responseJson = new JSONObject(data);
-                        if (responseJson != null) {
-                            AuthResponse authResponse = new AuthResponse(responseJson);
-                            tokenManager.saveToken(authResponse.getToken());
+                        AuthResponse authResponse = new AuthResponse(responseJson);
+                        tokenManager.saveToken(authResponse.getToken());
 
-                            Intent intent = new Intent(SignUpActivity.this, GameCenterActivity.class);
-                            intent.putExtra("user", authResponse.getUser());
-                            startActivity(intent);
-                        }
+                        Intent intent = new Intent(SignUpActivity.this, GameCenterActivity.class);
+                        intent.putExtra("user", authResponse.getUser());
+                        startActivity(intent);
                     } catch (Exception e) {
                         Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }

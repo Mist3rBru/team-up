@@ -1,8 +1,9 @@
 package com.example.teamup.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Platform {
+public class Platform implements Serializable {
     private String id;
     private String name;
     private List<Game> games;
