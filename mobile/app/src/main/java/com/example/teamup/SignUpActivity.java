@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.teamup.domain.User;
+import com.example.teamup.helpers.AuthResponse;
 import com.example.teamup.helpers.NetworkHelper;
 import com.example.teamup.helpers.TokenManager;
 import com.google.gson.Gson;
@@ -101,6 +102,7 @@ public class SignUpActivity extends AppCompatActivity {
             userJson.put("confirmPassword", confirmPassword);
         } catch (JSONException e) {
             e.printStackTrace();
+            return;
         }
 
         networkHelper.postRequest("/user", userJson, new NetworkHelper.NetworkCallback() {
@@ -142,11 +144,4 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-    static class AuthResponse {
-        String token;
-        User user;
-    }
-    }
+}
