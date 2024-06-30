@@ -1,5 +1,9 @@
 package com.example.teamup.helpers;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -9,28 +13,31 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
-
-import org.json.JSONObject;
-
-import java.io.IOException;
-
 public class NetworkHelper {
 
     private OkHttpClient client;
+    private TokenManager tokenManager;
 
     public NetworkHelper() {
         this.client = new OkHttpClient();
     }
 
+    public NetworkHelper(TokenManager tokenManager) {
+        this.client = new OkHttpClient();
+        this.tokenManager = tokenManager;
+    }
+
     public void postRequest(String url, JSONObject json, NetworkCallback callback) {
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json.toString());
-        Request request = new Request.Builder()
-                .url("http://10.0.2.2:3030"+ url)
-                .post(body)
-                .build();
+        Request.Builder builder = new Request.Builder()
+                .url("http://10.0.2.2:3030" + url)
+                .post(body);
+
+        if (this.tokenManager != null) {
+            builder.addHeader("authorization", this.tokenManager.getToken());
+        }
+
+        Request request = builder.build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -61,6 +68,7 @@ public class NetworkHelper {
 
     public interface NetworkCallback {
         void onSuccess(Response response);
+
         void onError(Exception e);
     }
 }
