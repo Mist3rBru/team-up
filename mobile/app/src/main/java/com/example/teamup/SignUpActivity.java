@@ -2,6 +2,7 @@ package com.example.teamup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.teamup.helpers.NetworkHelper;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -34,6 +36,8 @@ public class SignUpActivity extends AppCompatActivity {
     TextView confirmPasswordInput;
     Button signUpButton;
 
+    NetworkHelper networkHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,8 @@ public class SignUpActivity extends AppCompatActivity {
         passwordInput = findViewById(R.id.passwordInput);
         confirmPasswordInput = findViewById(R.id.confirmPasswordInput);
         signUpButton = findViewById(R.id.signUpButton);
+
+        networkHelper = new NetworkHelper();
 
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,44 +98,23 @@ public class SignUpActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        postUser(userJson);
-
-    }
-
-    private void postUser(JSONObject userJson) {
-        OkHttpClient client = new OkHttpClient();
-        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), userJson.toString());
-        Request request = new Request.Builder()
-                .url("http://10.0.2.2:3030/user")
-                .post(body)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
+        networkHelper.postRequest("/user", userJson, new NetworkHelper.NetworkCallback() {
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    // Handle the error
-                    runOnUiThread(() -> {
-                        Toast.makeText(SignUpActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                    });
-                    throw new IOException("Unexpected code " + response);
-                }
-
-                // Handle the success response
+            public void onSuccess(Response response) {
                 runOnUiThread(() -> {
                     Toast.makeText(SignUpActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                 });
             }
 
             @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
+            public void onError(Exception e) {
                 runOnUiThread(() -> {
-                    Toast.makeText(SignUpActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
             }
         });
     }
+
     static class User {
         String       id;
         String img;

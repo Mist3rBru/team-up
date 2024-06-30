@@ -32,5 +32,5 @@ services:
       - team-up
     ports:
       - 3030:3030
-    command: bash -c "npm run prisma:dev && npm run dev"
+    command: bash -c "while !</dev/tcp/prisma/5432; do sleep 1; done; npm run prisma:dev && npm run dev"
 
