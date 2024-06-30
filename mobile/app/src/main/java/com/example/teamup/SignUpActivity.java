@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.teamup.domain.User;
 import com.example.teamup.helpers.NetworkHelper;
+import com.example.teamup.helpers.TokenManager;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -26,6 +28,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class SignUpActivity extends AppCompatActivity {
     ImageView backIcon;
@@ -37,6 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
     Button signUpButton;
 
     NetworkHelper networkHelper;
+    TokenManager tokenManager;
 
 
     @Override
@@ -53,6 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton = findViewById(R.id.signUpButton);
 
         networkHelper = new NetworkHelper();
+        tokenManager=TokenManager.getInstance(this);
 
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +107,30 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Response response) {
                 runOnUiThread(() -> {
-                    Toast.makeText(SignUpActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                    try (ResponseBody responseBody = response.body()) {
+                        if (responseBody != null) {
+                            JSONObject jsonResponse = new JSONObject(responseBody.string());
+                            AuthResponse authResponse = new AuthResponse();
+
+                            authResponse.token = jsonResponse.optString("token", null);
+                            tokenManager.saveToken(authResponse.token);
+
+                            // Parse user object
+                            JSONObject userJson = jsonResponse.optJSONObject("user");
+                            if (userJson != null) {
+                                authResponse.user = new User(
+                                        userJson.optString("id", null),
+                                        userJson.optString("name", null)
+                                );
+                            }
+
+                            Intent intent=   new Intent(SignUpActivity.this, GameCenterActivity.class);
+                            intent.putExtra("user", authResponse.user);
+                            startActivity(intent);
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(SignUpActivity.this, "Failed to parse user", Toast.LENGTH_SHORT).show();
+                    }
                 });
             }
 
@@ -115,15 +143,9 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    static class User {
-        String       id;
-        String img;
-        String name;
-    }
 
 
     static class AuthResponse {
-        Number  statusCode;
         String token;
         User user;
     }

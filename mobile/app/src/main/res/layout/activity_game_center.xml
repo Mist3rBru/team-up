@@ -10,7 +10,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/menuContainer"
+        android:id="@+id/platformNavBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#18181B"
@@ -20,7 +20,7 @@
 
 
         <TextView
-            android:id="@+id/menu1"
+            android:id="@+id/platform1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -33,7 +33,7 @@
 
 
         <TextView
-            android:id="@+id/menu2"
+            android:id="@+id/platform2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -44,7 +44,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/menu3"
+            android:id="@+id/platform3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -55,7 +55,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/menu4"
+            android:id="@+id/platform4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -67,7 +67,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/search"
+        android:id="@+id/searchInput"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="15dp"
@@ -80,8 +80,6 @@
         android:textColor="@android:color/white"
         android:textColorHint="#e7e7e7"
         android:textSize="18sp">
-
-
     </EditText>
 
     <ScrollView
