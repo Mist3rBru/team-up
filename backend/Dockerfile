@@ -3,12 +3,12 @@ RUN npm install -g pnpm
 
 FROM pnpm as modules
 WORKDIR /api
-COPY /prisma ./prisma
 COPY /package.json ./
 RUN pnpm install
 
 FROM modules as base
 COPY /public ./public
+COPY /prisma ./prisma
 COPY /src ./src
 COPY /nest* ./
 COPY /tsconfig* ./

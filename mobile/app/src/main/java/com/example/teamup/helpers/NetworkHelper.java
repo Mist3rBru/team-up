@@ -1,5 +1,12 @@
 package com.example.teamup.helpers;
 
+import android.content.Intent;
+import android.widget.Toast;
+
+import com.example.teamup.GameCenterActivity;
+import com.example.teamup.SignUpActivity;
+import com.example.teamup.domain.User;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -15,22 +22,47 @@ import okhttp3.ResponseBody;
 
 public class NetworkHelper {
 
+    private final String baseUrl;
     private OkHttpClient client;
     private TokenManager tokenManager;
 
     public NetworkHelper() {
-        this.client = new OkHttpClient();
+        baseUrl = "http://10.0.2.2:3030";
+        client = new OkHttpClient();
     }
 
     public NetworkHelper(TokenManager tokenManager) {
-        this.client = new OkHttpClient();
+        baseUrl = "http://10.0.2.2:3030";
+        client = new OkHttpClient();
         this.tokenManager = tokenManager;
+    }
+
+    public void getRequest(String url, NetworkCallback callback) {
+        Request.Builder builder = new Request.Builder().url(baseUrl + url);
+
+        if (this.tokenManager != null) {
+            builder.addHeader("authorization", this.tokenManager.getToken());
+        }
+
+        Request request = builder.build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                handleResponse(response, callback);
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onError(e);
+            }
+        });
     }
 
     public void postRequest(String url, JSONObject json, NetworkCallback callback) {
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json.toString());
         Request.Builder builder = new Request.Builder()
-                .url("http://10.0.2.2:3030" + url)
+                .url(baseUrl + url)
                 .post(body);
 
         if (this.tokenManager != null) {
@@ -42,20 +74,7 @@ public class NetworkHelper {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    String errorMessage = "";
-                    try (ResponseBody responseBody = response.body()) {
-                        if (responseBody != null) {
-                            JSONObject errorJson = new JSONObject(responseBody.string());
-                            errorMessage = errorJson.optString("message", "Unknown error");
-                        }
-                    } catch (Exception e) {
-                        errorMessage = "Failed to parse error message";
-                    }
-                    callback.onError(new Exception(errorMessage));
-                    return;
-                }
-                callback.onSuccess(response);
+                handleResponse(response,callback);
             }
 
             @Override
@@ -66,8 +85,35 @@ public class NetworkHelper {
         });
     }
 
+
+    private void handleResponse(Response response, NetworkCallback callback) throws IOException {
+        if (!response.isSuccessful()) {
+            String errorMessage = "";
+            try (ResponseBody responseBody = response.body()) {
+                if (responseBody != null) {
+                    JSONObject errorJson = new JSONObject(responseBody.string());
+                    errorMessage = errorJson.optString("message", "Unknown error");
+                }
+            } catch (Exception e) {
+                errorMessage = "Internal server error";
+            }
+            callback.onError(new Exception(errorMessage));
+        } else {
+            try (ResponseBody responseBody = response.body()) {
+                if (responseBody != null) {
+                    String data = responseBody.string();
+                    callback.onSuccess(data);
+                } else {
+                    callback.onSuccess(null);
+                }
+            } catch (Exception e) {
+                callback.onError(e);
+            }
+        }
+    }
+
     public interface NetworkCallback {
-        void onSuccess(Response response);
+        void onSuccess(String data);
 
         void onError(Exception e);
     }

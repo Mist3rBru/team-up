@@ -10,16 +10,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.teamup.domain.User;
 import com.example.teamup.helpers.AuthResponse;
 import com.example.teamup.helpers.NetworkHelper;
 import com.example.teamup.helpers.TokenManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -97,31 +93,20 @@ public class LoginActivity extends AppCompatActivity {
 
         networkHelper.postRequest("/auth/login", loginJson, new NetworkHelper.NetworkCallback() {
             @Override
-            public void onSuccess(Response response) {
+            public void onSuccess(String data) {
                 runOnUiThread(() -> {
-                    try (ResponseBody responseBody = response.body()) {
-                        if (responseBody != null) {
-                            JSONObject jsonResponse = new JSONObject(responseBody.string());
-                            AuthResponse authResponse = new AuthResponse();
-
-                            authResponse.token = jsonResponse.optString("token", null);
-                            tokenManager.saveToken(authResponse.token);
-
-                            // Parse user object
-                            JSONObject userJson = jsonResponse.optJSONObject("user");
-                            if (userJson != null) {
-                                authResponse.user = new User(
-                                        userJson.optString("id", null),
-                                        userJson.optString("name", null)
-                                );
-                            }
+                    try {
+                        JSONObject responseJson = new JSONObject(data);
+                        if (responseJson != null) {
+                            AuthResponse authResponse = new AuthResponse(responseJson);
+                            tokenManager.saveToken(authResponse.getToken());
 
                             Intent intent = new Intent(LoginActivity.this, GameCenterActivity.class);
-                            intent.putExtra("user", authResponse.user);
+                            intent.putExtra("user", authResponse.getUser());
                             startActivity(intent);
                         }
                     } catch (Exception e) {
-                        Toast.makeText(LoginActivity.this, "Failed to parse user", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

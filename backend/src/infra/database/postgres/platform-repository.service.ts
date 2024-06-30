@@ -24,9 +24,19 @@ export class PlatformRepository implements IPlatformRepository {
   }
 
   async list(): Promise<Platform[]> {
-    const data = await this.db.platform.findMany()
+    const data = await this.db.platform.findMany({
+      include: {
+        gamePlatforms: {
+          select: {
+            game: true,
+          },
+        },
+      },
+    })
 
-    return data.map(d => new Platform(d))
+    return data.map(
+      d => new Platform({ ...d, games: d.gamePlatforms.flatMap(gp => gp.game) })
+    )
   }
 
   async findById(platformId: string): Promise<Platform | null> {

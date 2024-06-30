@@ -11,10 +11,8 @@
     "lint:tsc": "tsc --noEmit",
     "lint:prettier": "prettier --write .",
     "lint:eslint": "eslint --fix \"src/**/*.ts\"",
-    "postinstall": "npm run prisma",
-    "prisma": "prisma generate",
-    "prisma:dev": "prisma migrate dev",
-    "prisma:prod": "prisma migrate deploy",
+    "prisma:dev": "prisma generate && prisma migrate dev",
+    "prisma:prod": "prisma generate && prisma migrate deploy",
     "prisma:reset": "prisma migrate reset"
   },
   "keywords": [],

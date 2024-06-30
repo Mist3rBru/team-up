@@ -2,7 +2,6 @@ package com.example.teamup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,25 +10,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.teamup.domain.User;
 import com.example.teamup.helpers.AuthResponse;
 import com.example.teamup.helpers.NetworkHelper;
 import com.example.teamup.helpers.TokenManager;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 public class SignUpActivity extends AppCompatActivity {
     ImageView backIcon;
@@ -58,7 +44,7 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton = findViewById(R.id.signUpButton);
 
         networkHelper = new NetworkHelper();
-        tokenManager=TokenManager.getInstance(this);
+        tokenManager = TokenManager.getInstance(this);
 
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,31 +93,20 @@ public class SignUpActivity extends AppCompatActivity {
 
         networkHelper.postRequest("/user", userJson, new NetworkHelper.NetworkCallback() {
             @Override
-            public void onSuccess(Response response) {
+            public void onSuccess(String data) {
                 runOnUiThread(() -> {
-                    try (ResponseBody responseBody = response.body()) {
-                        if (responseBody != null) {
-                            JSONObject jsonResponse = new JSONObject(responseBody.string());
-                            AuthResponse authResponse = new AuthResponse();
+                    try {
+                        JSONObject responseJson = new JSONObject(data);
+                        if (responseJson != null) {
+                            AuthResponse authResponse = new AuthResponse(responseJson);
+                            tokenManager.saveToken(authResponse.getToken());
 
-                            authResponse.token = jsonResponse.optString("token", null);
-                            tokenManager.saveToken(authResponse.token);
-
-                            // Parse user object
-                            JSONObject userJson = jsonResponse.optJSONObject("user");
-                            if (userJson != null) {
-                                authResponse.user = new User(
-                                        userJson.optString("id", null),
-                                        userJson.optString("name", null)
-                                );
-                            }
-
-                            Intent intent=   new Intent(SignUpActivity.this, GameCenterActivity.class);
-                            intent.putExtra("user", authResponse.user);
+                            Intent intent = new Intent(SignUpActivity.this, GameCenterActivity.class);
+                            intent.putExtra("user", authResponse.getUser());
                             startActivity(intent);
                         }
                     } catch (Exception e) {
-                        Toast.makeText(SignUpActivity.this, "Failed to parse user", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
