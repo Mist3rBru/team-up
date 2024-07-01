@@ -78,7 +78,7 @@ export class User {
   }
 
   get contacts(): User.Contact[] | undefined {
-    return this.contacts
+    return this.props.contacts
   }
 
   get createdAt(): Date {

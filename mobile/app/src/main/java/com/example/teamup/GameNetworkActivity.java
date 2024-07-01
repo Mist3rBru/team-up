@@ -1,8 +1,13 @@
 package com.example.teamup;
 
+import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +21,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.teamup.domain.Contact;
 import com.example.teamup.domain.Game;
 import com.example.teamup.domain.Player;
 import com.example.teamup.helpers.NetworkHelper;
@@ -37,6 +43,7 @@ public class GameNetworkActivity extends AppCompatActivity {
 
     Game game;
     NetworkHelper networkHelper;
+    ClipboardManager clipboard;
 
 
     @Override
@@ -69,6 +76,7 @@ public class GameNetworkActivity extends AppCompatActivity {
         gameTitleView.setText(game.getName());
 
         networkHelper = new NetworkHelper(TokenManager.getInstance(this));
+        clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
         backButton.setOnClickListener(v -> {
             Intent intent = new Intent(GameNetworkActivity.this, GameCenterActivity.class);
@@ -143,6 +151,124 @@ public class GameNetworkActivity extends AppCompatActivity {
         TextView rankView = playerView.findViewById(R.id.rank);
         rankView.setText(player.getRank());
 
+        LinearLayout connectButton = playerView.findViewById(R.id.connectButton);
+        connectButton.setOnClickListener(v -> {
+            Dialog dialog = createPlayerInfoDialog(player);
+            dialog.show();
+        });
+
         return playerView;
+    }
+
+    Dialog createPlayerInfoDialog(Player player) {
+        new Dialog(this);
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_connect);
+
+        ImageView closeButton = dialog.findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(v -> dialog.cancel());
+
+        TextView playerName = dialog.findViewById(R.id.playerName);
+        playerName.setText(player.getName());
+
+        networkHelper.getRequest("/users/" + player.getId(), new NetworkHelper.NetworkCallback() {
+            @Override
+            public void onSuccess(String data) {
+                runOnUiThread(() -> {
+                    try {
+                        List<Contact> contacts = parseContacts(data);
+                        LinearLayout dialogContent = dialog.findViewById(R.id.dialogContent);
+                        for (Contact contact : contacts) {
+                            dialogContent.addView(createContactView(contact));
+                        }
+                    } catch (Exception e) {
+                        Log.println(Log.ERROR, "parsePlayer", e.getMessage());
+                        Toast.makeText(GameNetworkActivity.this, "Failed to parse player", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Exception e) {
+                runOnUiThread(() -> {
+                    Log.println(Log.ERROR, "fetchPlayer", e.getMessage());
+                    Toast.makeText(GameNetworkActivity.this, "Failed to fetch player", Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+
+        return dialog;
+    }
+
+    LinearLayout createContactView(Contact contact) {
+        LinearLayout contactViewGroup = new LinearLayout(this);
+        contactViewGroup.setOrientation(LinearLayout.VERTICAL);
+
+        TextView platformView = new TextView(this);
+        platformView.setText(contact.getPlatform());
+        platformView.setTextColor(Color.parseColor("#c4c4c6"));
+        platformView.setTextSize(16);
+
+        LinearLayout contactView = new LinearLayout(this);
+        LinearLayout.LayoutParams contactViewLayoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        contactViewLayoutParams.setMargins(0, 0, 0, 20);
+        contactView.setLayoutParams(contactViewLayoutParams);
+        contactView.setGravity(Gravity.CENTER);
+        contactView.setOrientation(LinearLayout.HORIZONTAL);
+        contactView.setPadding(5, 5, 5, 5);
+        contactView.setBackgroundColor(Color.parseColor("#18181b"));
+
+        TextView contactInfoView = new TextView(this);
+        contactInfoView.setText(contact.getName());
+        LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1
+        );
+        contactInfoView.setLayoutParams(textViewParams);
+        contactInfoView.setPadding(10, 10, 10, 10);
+        ;
+        contactInfoView.setTextColor(Color.parseColor("#c4c4c6"));
+
+        ImageView copyButtonView = new ImageView(this);
+        LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(
+                28,
+                28
+        );
+        imageViewParams.setMargins(20, 0, 20, 0);
+        copyButtonView.setLayoutParams(imageViewParams);
+        copyButtonView.setImageResource(R.drawable.add);
+
+        contactViewGroup.addView(platformView);
+        contactViewGroup.addView(contactView);
+        contactView.addView(contactInfoView);
+        contactView.addView(copyButtonView);
+
+        contactView.setOnClickListener(v -> {
+            ClipData clip = ClipData.newPlainText("contact", contact.getName());
+            clipboard.setPrimaryClip(clip);
+            copyButtonView.setImageResource(R.drawable.check);
+        });
+
+        return contactViewGroup;
+    }
+
+    List<Contact> parseContacts(String data) throws JSONException {
+        List<Contact> contacts = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(data);
+        JSONArray jsonArray = jsonObject.getJSONArray("contacts");
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject playerObject = jsonArray.getJSONObject(i);
+            contacts.add(new Contact(
+                    playerObject.getString("id"),
+                    playerObject.getString("platform"),
+                    playerObject.getString("name"))
+            );
+        }
+
+        return contacts;
     }
 }

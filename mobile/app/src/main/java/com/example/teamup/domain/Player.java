@@ -8,7 +8,7 @@ public class Player implements Serializable {
     private String rank;
     private String playTime;
 
-    public Player(String ig, String name, String rank, String playTime) {
+    public Player(String id, String name, String rank, String playTime) {
         this.id = id;
         this.name = name;
         this.rank = rank;
