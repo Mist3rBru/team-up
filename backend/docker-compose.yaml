@@ -25,8 +25,8 @@ services:
       context: .
     environment:
       - DB_URL=postgresql://admin:admin@prisma:5432/team-up?schema=public
-      - APP_HOST=${APP_HOST}
-      - TOKEN_SECRET=${TOKEN_SECRET}
+      - APP_HOST=localhost:3030
+      - TOKEN_SECRET=97c655f1-e7df-4ebf-aa16-68dfb9714530
       - STEAM_SECRET=${STEAM_SECRET}
     networks:
       - team-up
